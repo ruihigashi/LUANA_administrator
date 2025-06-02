@@ -8,6 +8,7 @@ import Appointments from '@pages/Appointments';
 import Customers from '@pages/Customers';
 import Services from '@pages/Services';
 import NotFound from '@pages/NotFound';
+import HolidaySettings from '@pages/HolidaySettings';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, isLoading } = useAuth();
@@ -51,6 +52,7 @@ function App() {
             <Route path="appointments" element={<Appointments />} />
             <Route path="customers" element={<Customers />} />
             <Route path="services" element={<Services />} />
+            <Route path="holidays" element={<HolidaySettings />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

@@ -1,9 +1,17 @@
-// ── src/pages/Dashboard.tsx ──
+// src/pages/Dashboard.tsx
 
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Calendar, Scissors, Users, TrendingUp } from 'lucide-react';
-import { format } from 'date-fns';
+import {
+  format,
+  startOfWeek,
+  endOfWeek,
+  subWeeks,
+  addDays,
+  parseISO,
+} from 'date-fns';
+import { ja } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 import {
   BarChart,
@@ -22,8 +30,15 @@ type Stats = {
   totalReservations: number;        // 予約総数
   totalCustomers: number;           // 顧客総数
   totalServices: number;            // 提供サービス数
-  upcomingReservations: any[];      // 今後の予約一覧（5件以内）
+  upcomingReservations: Array<{
+    id: number;
+    date: string;
+    start_time: string;
+    service_names: string;
+    customers: { first_name: string; last_name: string } | null;
+  }>;
   revenueData: { name: string; revenue: number }[];
+  weekComparison: number;           // 前週比（%）
 };
 
 export default function Dashboard() {
@@ -33,6 +48,7 @@ export default function Dashboard() {
     totalServices: 0,
     upcomingReservations: [],
     revenueData: [],
+    weekComparison: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,59 +77,117 @@ export default function Dashboard() {
           .from('services')
           .select('*', { count: 'exact', head: true });
 
-        // ----------------------------
-        // 4) 今後の予約（reservations テーブルから、今日以降の日付順に先頭 5 件）
-        //    JOIN: customers, staff（必要に応じて）
-        // ----------------------------
-        const todayStr = format(new Date(), 'yyyy-MM-dd');
+        // ───────────────────────────────────────────────────────────────────
+        // 4) 今後の予約を取得（シンプルに「今日以降で日時順に先頭5件」）
+        //    必要なフィールド：顧客名 (first_name, last_name)、日時、メニュー(service_names)
+        // ───────────────────────────────────────────────────────────────────
+        const today = format(new Date(), 'yyyy-MM-dd');
         const { data: upcomingData } = await supabase
           .from('reservations')
-          .select(
-            `
+          .select(`
             id,
             date,
             start_time,
             service_names,
-            total_price,
             customers (
-              id,
-              first_name,
-              last_name
-            ),
-            staff (
-              id,
               first_name,
               last_name
             )
-          `
-          )
-          .gte('date', todayStr)
+          `)
+          .gte('date', today)
           .order('date', { ascending: true })
           .order('start_time', { ascending: true })
           .limit(5);
 
-        // ----------------------------
-        // 5) ダミーの週間売上データ（必要に応じて実際の売上集計クエリに置き換えてください）
-        // ----------------------------
-        const dummyRevenueData = [
-          { name: '月', revenue: 1200 },
-          { name: '火', revenue: 900 },
-          { name: '水', revenue: 1500 },
-          { name: '木', revenue: 1800 },
-          { name: '金', revenue: 2400 },
-          { name: '土', revenue: 2800 },
-          { name: '日', revenue: 1000 },
-        ];
+        // ──────────────────────────────────────────────────────────────
+        // 5) 当週・前週の売上データを取得して集計
+        // ──────────────────────────────────────────────────────────────
+        const now = new Date();
+        const weekStart = startOfWeek(now, { weekStartsOn: 1 });   // 今週の月曜
+        const weekEnd = endOfWeek(now, { weekStartsOn: 1 });       // 今週の日曜
+        const prevWeekStart = startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
+        const prevWeekEnd = endOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
+
+        const weekStartStr = format(weekStart, 'yyyy-MM-dd');
+        const weekEndStr = format(weekEnd, 'yyyy-MM-dd');
+        const prevWeekStartStr = format(prevWeekStart, 'yyyy-MM-dd');
+        const prevWeekEndStr = format(prevWeekEnd, 'yyyy-MM-dd');
+
+        // 当週の売上取得
+        const { data: weekReservations } = await supabase
+          .from('reservations')
+          .select('date, total_price')
+          .gte('date', weekStartStr)
+          .lte('date', weekEndStr);
+
+        // 前週の売上取得
+        const { data: prevWeekReservations } = await supabase
+          .from('reservations')
+          .select('date, total_price')
+          .gte('date', prevWeekStartStr)
+          .lte('date', prevWeekEndStr);
+
+        // 7日分のリスト (当週月曜〜日曜)
+        const daysOfWeek = Array.from({ length: 7 }).map((_, idx) =>
+          addDays(weekStart, idx)
+        );
+
+        // 当週日別売上マップ
+        const weekRevenueMap: Record<string, number> = {};
+        daysOfWeek.forEach(day => {
+          const key = format(day, 'yyyy-MM-dd');
+          weekRevenueMap[key] = 0;
+        });
+        weekReservations?.forEach((rec) => {
+          if (!rec.date || !rec.total_price) return;
+          const key = rec.date;
+          if (weekRevenueMap[key] !== undefined) {
+            weekRevenueMap[key] += rec.total_price;
+          }
+        });
+
+        // 前週日別売上マップ
+        const prevWeekRevenueMap: Record<string, number> = {};
+        Array.from({ length: 7 }).forEach((_, idx) => {
+          const key = format(addDays(prevWeekStart, idx), 'yyyy-MM-dd');
+          prevWeekRevenueMap[key] = 0;
+        });
+        prevWeekReservations?.forEach((rec) => {
+          if (!rec.date || !rec.total_price) return;
+          const key = rec.date;
+          if (prevWeekRevenueMap[key] !== undefined) {
+            prevWeekRevenueMap[key] += rec.total_price;
+          }
+        });
+
+        // グラフ用データ (月〜日)
+        const revenueData = daysOfWeek.map(day => ({
+          name: format(day, 'EEE', { locale: ja }), // 日本語省略曜日 (月, 火, …)
+          revenue: weekRevenueMap[format(day, 'yyyy-MM-dd')] || 0,
+        }));
+
+        // 当週合計・前週合計
+        const thisWeekTotal = Object.values(weekRevenueMap).reduce((sum, v) => sum + v, 0);
+        const prevWeekTotal = Object.values(prevWeekRevenueMap).reduce((sum, v) => sum + v, 0);
+
+        // 前週比 (%) 計算
+        let weekComparison = 0;
+        if (prevWeekTotal === 0) {
+          weekComparison = thisWeekTotal === 0 ? 0 : 100;
+        } else {
+          weekComparison = Math.round(((thisWeekTotal - prevWeekTotal) / prevWeekTotal) * 100);
+        }
 
         setStats({
           totalReservations: resCount || 0,
           totalCustomers: custCount || 0,
           totalServices: svcCount || 0,
-          upcomingReservations: upcomingData || [],
-          revenueData: dummyRevenueData,
+          upcomingReservations: (upcomingData as any[]) || [],
+          revenueData,
+          weekComparison,
         });
       } catch (error) {
-        console.error('ダッシュボードデータの取得中にエラーが発生しました:', error);
+        console.error('ダッシュボードデータの取得中にエラー:', error);
       } finally {
         setIsLoading(false);
       }
@@ -246,7 +320,11 @@ export default function Dashboard() {
                 <h2 className="text-lg font-medium text-gray-900">週間売上</h2>
                 <div className="flex items-center">
                   <TrendingUp className="h-5 w-5 text-green-500 mr-1" />
-                  <span className="text-sm text-green-500">前週比 +12%</span>
+                  <span className="text-sm text-green-500">
+                    {stats.weekComparison >= 0
+                      ? `前週比 +${stats.weekComparison}%`
+                      : `前週比 ${stats.weekComparison}%`}
+                  </span>
                 </div>
               </div>
               <div className="h-64">
@@ -282,55 +360,33 @@ export default function Dashboard() {
               </div>
               <div className="bg-white divide-y divide-gray-200 max-h-96 overflow-y-auto">
                 {stats.upcomingReservations.length > 0 ? (
-                  stats.upcomingReservations.map((reservation) => (
-                    <div
-                      key={reservation.id}
-                      className="px-4 py-4 sm:px-6 hover:bg-gray-50 transition-colors"
-                    >
-                      {/* 1行目：サービス名 と 金額 */}
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-pink-600 truncate">
-                          {reservation.service_names}
-                        </p>
-                        <div className="ml-2 flex-shrink-0 flex">
-                          <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {reservation.total_price}円
+                  stats.upcomingReservations.map((reservation) => {
+                    const dateTime = parseISO(`${reservation.date}T${reservation.start_time}`);
+                    return (
+                      <div
+                        key={reservation.id}
+                        className="px-4 py-4 sm:px-6 hover:bg-gray-50 transition-colors"
+                      >
+                        {/* 1行目：顧客名・メニュー */}
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-gray-900 truncate">
+                            {reservation.customers
+                              ? `${reservation.customers.last_name} ${reservation.customers.first_name}`
+                              : '顧客不明'}
+                          </p>
+                          <p className="text-sm text-pink-600 truncate">
+                            {reservation.service_names}
                           </p>
                         </div>
-                      </div>
 
-                      {/* 2行目：顧客名・担当スタッフ */}
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            <Users className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                            {reservation.customers?.first_name}{' '}
-                            {reservation.customers?.last_name}
-                          </p>
-                          {reservation.staff && (
-                            <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                              <Scissors className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                              {reservation.staff.first_name}{' '}
-                              {reservation.staff.last_name}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* 右側：日時 */}
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                        {/* 2行目：日時 */}
+                        <div className="mt-2 flex items-center text-sm text-gray-500">
                           <Calendar className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                          <p>
-                            {format(
-                              new Date(
-                                `${reservation.date}T${reservation.start_time}`
-                              ),
-                              'yyyy年MM月dd日 HH:mm'
-                            )}
-                          </p>
+                          <p>{format(dateTime, 'yyyy年MM月dd日 HH:mm')}</p>
                         </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
                   <div className="px-4 py-8 text-center text-gray-500">
                     <p>今後の予約はありません</p>

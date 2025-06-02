@@ -8,8 +8,7 @@ import {
   X,
   LogOut,
   BarChart2,
-  Settings,
-  PlusSquare
+  PlusSquare,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -29,6 +28,7 @@ export default function DashboardLayout() {
     { name: '予約一覧', path: '/appointments', icon: <Calendar className="w-5 h-5" /> },
     { name: '顧客管理', path: '/customers', icon: <Users className="w-5 h-5" /> },
     { name: 'サービス管理', path: '/services', icon: <Scissors className="w-5 h-5" /> },
+    { name: '休日設定', path: '/holidays', icon: <PlusSquare className="w-5 h-5" /> },
   ];
 
   return (
