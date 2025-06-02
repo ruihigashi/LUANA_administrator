@@ -293,7 +293,7 @@ export default function Customers() {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold text-gray-900">顧客一覧</h1>
         <button
-          className="inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors"
+          className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors"
           onClick={() => setIsAddModalOpen(true)}
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -311,7 +311,7 @@ export default function Customers() {
             </div>
             <input
               type="text"
-              className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="顧客を検索..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -322,7 +322,7 @@ export default function Customers() {
           <div ref={dropdownRef} className="relative w-full md:w-1/3">
             <button
               type="button"
-              className="inline-flex items-center justify-between w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="inline-flex items-center justify-between w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               <Filter className="h-5 w-5 mr-2 text-gray-500" />
@@ -382,7 +382,7 @@ export default function Customers() {
       <div className="bg-white shadow rounded-lg overflow-hidden">
         {loading ? (
           <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-700"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -413,8 +413,8 @@ export default function Customers() {
                       {/** 氏名 **/}
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10 bg-pink-100 rounded-full flex items-center justify-center">
-                            <User className="h-6 w-6 text-pink-600" />
+                          <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <User className="h-6 w-6 text-blue-600" />
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
@@ -442,18 +442,18 @@ export default function Customers() {
                       {/** 操作（編集・削除） **/}
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
-                          className="text-pink-600 hover:text-pink-900 mr-3"
+                          className="text-blue-600 hover:text-blue-900 mr-3"
                           aria-label="編集"
                           onClick={() => openEditModal(customer)}
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit className="h-5 w-5" />
                         </button>
                         <button
                           className="text-red-600 hover:text-red-900"
                           aria-label="削除"
                           onClick={() => handleDelete(customer.id)}
                         >
-                          <Trash className="h-4 w-4" />
+                          <Trash className="h-5 w-5" />
                         </button>
                       </td>
                     </tr>
@@ -498,7 +498,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     newLastName.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="山田"
                 />
@@ -514,7 +514,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     newFirstName.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="太郎"
                 />
@@ -530,7 +530,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     newLastNameKana.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="ヤマダ"
                 />
@@ -546,7 +546,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     newFirstNameKana.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="タロウ"
                 />
@@ -562,7 +562,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     newPhone.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="09012345678"
                 />
@@ -580,7 +580,7 @@ export default function Customers() {
                   disabled={!isAddFormValid}
                   className={`px-4 py-2 rounded-md text-white ${
                     isAddFormValid
-                      ? 'bg-pink-600 hover:bg-pink-700'
+                      ? 'bg-blue-600 hover:bg-blue-700'
                       : 'bg-gray-300 cursor-not-allowed'
                   } transition-colors`}
                 >
@@ -622,7 +622,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     editLastName.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="山田"
                 />
@@ -638,7 +638,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     editFirstName.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="太郎"
                 />
@@ -654,7 +654,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     editLastNameKana.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="ヤマダ"
                 />
@@ -670,7 +670,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     editFirstNameKana.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="タロウ"
                 />
@@ -686,7 +686,7 @@ export default function Customers() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     editPhone.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                   placeholder="09012345678"
                 />
@@ -707,7 +707,7 @@ export default function Customers() {
                   disabled={!isEditFormValid}
                   className={`px-4 py-2 rounded-md text-white ${
                     isEditFormValid
-                      ? 'bg-pink-600 hover:bg-pink-700'
+                      ? 'bg-blue-600 hover:bg-blue-700'
                       : 'bg-gray-300 cursor-not-allowed'
                   } transition-colors`}
                 >

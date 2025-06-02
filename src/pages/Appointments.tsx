@@ -470,9 +470,9 @@ export default function Appointments() {
     <div className="p-6 bg-gray-50 min-h-screen">
       {/** ページヘッダー **/}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900">予約一覧</h1>
+        <h1 className="text-3xl font-semibold text-gray-900">予約一覧</h1>
         <button
-          className="inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
+          className="inline-flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
           onClick={() => {
             resetForm();
             setDateValue(format(new Date(), 'yyyy-MM-dd'));
@@ -495,7 +495,7 @@ export default function Appointments() {
                 onClick={() => setViewType('calendar')}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   viewType === 'calendar'
-                    ? 'bg-pink-100 text-pink-700'
+                    ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
@@ -506,7 +506,7 @@ export default function Appointments() {
                 onClick={() => setViewType('list')}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   viewType === 'list'
-                    ? 'bg-pink-100 text-pink-700'
+                    ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
@@ -526,7 +526,7 @@ export default function Appointments() {
                   placeholder="予約を検索"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 text-sm transition-colors duration-200"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors duration-200"
                 />
               </div>
 
@@ -544,7 +544,7 @@ export default function Appointments() {
                     inline-flex justify-between w-full rounded-md
                     border border-gray-300 shadow-sm px-4 py-2
                     bg-white text-sm font-medium text-gray-700
-                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                     transition-colors duration-200
                     pr-10
                   "
@@ -564,7 +564,7 @@ export default function Appointments() {
           {/** ローディング中 or カレンダー／リスト 本体 **/}
           {loading ? (
             <div className="flex justify-center my-12">
-              <div className="animate-spin h-12 w-12 border-4 border-pink-700 border-t-transparent rounded-full"></div>
+              <div className="animate-spin h-12 w-12 border-4 border-blue-700 border-t-transparent rounded-full"></div>
             </div>
           ) : viewType === 'calendar' ? (
             // ── カレンダー 表示 ──
@@ -673,7 +673,7 @@ export default function Appointments() {
                             <select
                               value={status}
                               onChange={(e) => updateReservationStatus(evt.id as string, e.target.value as any)}
-                              className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+                              className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                               <option value="pending">保留</option>
                               <option value="confirmed">確定</option>
@@ -684,7 +684,7 @@ export default function Appointments() {
                             <div className="flex justify-start space-x-4">
                               {/* 編集ボタン（鉛筆アイコン） */}
                               <button
-                                className="text-pink-600 hover:text-pink-900"
+                                className="text-blue-600 hover:text-blue-900"
                                 onClick={() =>
                                   handleEventClick({
                                     event: { id: evt.id },
@@ -699,7 +699,7 @@ export default function Appointments() {
 
                               {/* 削除ボタン（ゴミ箱アイコン） */}
                               <button
-                                className="text-pink-600 hover:text-pink-900"
+                                className="text-red-600 hover:text-red-900"
                                 onClick={() => handleDeleteReservation(evt.id as string)}
                               >
                                 <TrashIcon className="h-5 w-5" />
@@ -758,7 +758,7 @@ export default function Appointments() {
                     className={`w-full p-3 border rounded-md focus:outline-none ${
                       lastName.trim() === ''
                         ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                     }`}
                   />
                 </div>
@@ -775,7 +775,7 @@ export default function Appointments() {
                     className={`w-full p-3 border rounded-md focus:outline-none ${
                       firstName.trim() === ''
                         ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                     }`}
                   />
                 </div>
@@ -795,7 +795,7 @@ export default function Appointments() {
                     className={`w-full p-3 border rounded-md focus:outline-none ${
                       lastNameKana.trim() === ''
                         ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                     }`}
                   />
                 </div>
@@ -812,7 +812,7 @@ export default function Appointments() {
                     className={`w-full p-3 border rounded-md focus:outline-none ${
                       firstNameKana.trim() === ''
                         ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                     }`}
                   />
                 </div>
@@ -831,7 +831,7 @@ export default function Appointments() {
                   className={`w-full p-3 border rounded-md focus:outline-none ${
                     phone.trim() === ''
                       ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-pink-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
                   }`}
                 />
               </div>
@@ -848,7 +848,7 @@ export default function Appointments() {
                       <label
                         key={svc.id}
                         className={`flex items-center p-2 border rounded-md cursor-pointer ${
-                          isChecked ? 'bg-pink-50 border-pink-300' : 'hover:bg-gray-50'
+                          isChecked ? 'bg-blue-50 border-blue-300' : 'hover:bg-gray-50'
                         }`}
                       >
                         <input
@@ -879,7 +879,7 @@ export default function Appointments() {
                   value={dateValue}
                   onChange={(e) => setDateValue(e.target.value)}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   min={format(new Date(), 'yyyy-MM-dd')}
                 />
               </div>
@@ -895,7 +895,7 @@ export default function Appointments() {
                     value={selectedStartTime}
                     onChange={(e) => setSelectedStartTime(e.target.value)}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -907,7 +907,7 @@ export default function Appointments() {
                     value={selectedEndTime}
                     onChange={(e) => setSelectedEndTime(e.target.value)}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -921,7 +921,7 @@ export default function Appointments() {
                   value={statusValue}
                   onChange={(e) => setStatusValue(e.target.value as any)}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="pending">保留</option>
                   <option value="confirmed">確定</option>
@@ -938,7 +938,7 @@ export default function Appointments() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="何かあればご記入ください"
-                  className="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 resize-none"
+                  className="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 />
               </div>
 
@@ -956,7 +956,7 @@ export default function Appointments() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md shadow transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors"
                 >
                   {isEditMode ? '更新する' : '予約を作成'}
                 </button>

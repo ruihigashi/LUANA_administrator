@@ -49,19 +49,21 @@ export default function DashboardLayout() {
           </div>
 
           <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-            <div className="flex-shrink-0 flex items-center px-4">
-              <h1 className="text-xl font-serif font-bold text-pink-600">サロン管理</h1>
+            <div className="flex flex-col items-center text-center px-4 cursor-pointer">
+              <p className="text-xs text-gray-500 tracking-widest font-great">Hair Salon</p>
+              <h1 className="text-lg font-luana tracking-widest text-gray-700">
+                LUANA • S • MIRUTO
+              </h1>
             </div>
             <nav className="mt-5 px-2 space-y-1">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`${
-                    location.pathname.startsWith(item.path)
-                      ? 'bg-pink-50 text-pink-700'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  } group flex items-center px-2 py-2 text-base font-medium rounded-md`}
+                  className={`${location.pathname.startsWith(item.path)
+                    ? 'bg-blue-50 text-blue-800'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    } group flex items-center px-2 py-2 text-base font-medium rounded-md`}
                 >
                   {item.icon}
                   <span className="ml-3">{item.name}</span>
@@ -70,7 +72,7 @@ export default function DashboardLayout() {
             </nav>
           </div>
           <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-            <button 
+            <button
               className="flex items-center text-gray-600 hover:text-gray-900"
               onClick={handleSignOut}
             >
@@ -86,19 +88,21 @@ export default function DashboardLayout() {
         <div className="flex flex-col w-64">
           <div className="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-              <div className="flex items-center flex-shrink-0 px-4">
-                <h1 className="text-xl font-serif font-bold text-pink-600">サロン管理</h1>
+              <div className="flex flex-col items-center text-center px-4 cursor-pointer">
+                <p className="text-xs text-gray-500 tracking-widest font-great">Hair Salon</p>
+                <h1 className="text-lg font-luana tracking-widest text-gray-700">
+                  LUANA • S • MIRUTO
+                </h1>
               </div>
               <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
                 {navigationItems.map((item) => (
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`${
-                      location.pathname.startsWith(item.path)
-                        ? 'bg-pink-50 text-pink-700'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                    } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
+                    className={`${location.pathname.startsWith(item.path)
+                      ? 'bg-blue-50 text-blue-800'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      } group flex items-center px-2 py-2 text-sm font-medium rounded-md`}
                   >
                     {item.icon}
                     <span className="ml-3">{item.name}</span>
@@ -107,7 +111,7 @@ export default function DashboardLayout() {
               </nav>
             </div>
             <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-              <button 
+              <button
                 className="flex items-center text-gray-600 hover:text-gray-900"
                 onClick={handleSignOut}
               >
@@ -125,7 +129,7 @@ export default function DashboardLayout() {
         <div className="sticky top-0 z-10 lg:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-white">
           <button
             type="button"
-            className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500"
+            className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
             onClick={() => setSidebarOpen(true)}
           >
             <span className="sr-only">サイドバーを開く</span>

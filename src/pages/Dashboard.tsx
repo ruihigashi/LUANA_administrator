@@ -138,7 +138,7 @@ export default function Dashboard() {
           const key = format(day, 'yyyy-MM-dd');
           weekRevenueMap[key] = 0;
         });
-        weekReservations?.forEach((rec) => {
+        weekReservations?.forEach((rec: any) => {
           if (!rec.date || !rec.total_price) return;
           const key = rec.date;
           if (weekRevenueMap[key] !== undefined) {
@@ -152,7 +152,7 @@ export default function Dashboard() {
           const key = format(addDays(prevWeekStart, idx), 'yyyy-MM-dd');
           prevWeekRevenueMap[key] = 0;
         });
-        prevWeekReservations?.forEach((rec) => {
+        prevWeekReservations?.forEach((rec: any) => {
           if (!rec.date || !rec.total_price) return;
           const key = rec.date;
           if (prevWeekRevenueMap[key] !== undefined) {
@@ -198,16 +198,16 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-gray-900">ダッシュボード</h1>
+      <h1 className="text-3xl font-semibold text-gray-900">ダッシュボード</h1>
 
       {isLoading ? (
         <div className="flex justify-center my-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-700"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
         </div>
       ) : (
         <>
           {/* ─────────────────────────────────────────────
-              予約総数・顧客総数・サービス数 のカード表示
+              カード部分：予約総数・顧客総数・サービス数
              ───────────────────────────────────────────── */}
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* 予約総数 */}
@@ -235,7 +235,7 @@ export default function Dashboard() {
                 <div className="text-sm">
                   <Link
                     to="/appointments"
-                    className="font-medium text-pink-600 hover:text-pink-500"
+                    className="font-medium text-blue-700 hover:text-blue-600"
                   >
                     すべて表示
                   </Link>
@@ -268,7 +268,7 @@ export default function Dashboard() {
                 <div className="text-sm">
                   <Link
                     to="/customers"
-                    className="font-medium text-pink-600 hover:text-pink-500"
+                    className="font-medium text-blue-700 hover:text-blue-600"
                   >
                     すべて表示
                   </Link>
@@ -301,7 +301,7 @@ export default function Dashboard() {
                 <div className="text-sm">
                   <Link
                     to="/services"
-                    className="font-medium text-pink-600 hover:text-pink-500"
+                    className="font-medium text-blue-700 hover:text-blue-600"
                   >
                     すべて表示
                   </Link>
@@ -345,7 +345,7 @@ export default function Dashboard() {
                         boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                       }}
                     />
-                    <Bar dataKey="revenue" fill="#ec4899" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -374,7 +374,7 @@ export default function Dashboard() {
                               ? `${reservation.customers.last_name} ${reservation.customers.first_name}`
                               : '顧客不明'}
                           </p>
-                          <p className="text-sm text-pink-600 truncate">
+                          <p className="text-sm text-blue-700 truncate">
                             {reservation.service_names}
                           </p>
                         </div>
@@ -397,7 +397,7 @@ export default function Dashboard() {
                 <div className="text-sm">
                   <Link
                     to="/appointments"
-                    className="font-medium text-pink-600 hover:text-pink-500"
+                    className="font-medium text-blue-700 hover:text-blue-600"
                   >
                     すべての予約を表示
                   </Link>

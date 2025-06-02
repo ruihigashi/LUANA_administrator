@@ -508,7 +508,7 @@ export default function Services() {
           className={`
             px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200
             ${menuType === 'single'
-              ? 'bg-pink-600 text-white'
+              ? 'bg-blue-600 text-white'
               : 'bg-white text-gray-600 hover:bg-gray-100'
             }
           `}
@@ -520,7 +520,7 @@ export default function Services() {
           className={`
             px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200
             ${menuType === 'set'
-              ? 'bg-pink-600 text-white'
+              ? 'bg-blue-600 text-white'
               : 'bg-white text-gray-600 hover:bg-gray-100'
             }
           `}
@@ -544,7 +544,7 @@ export default function Services() {
                 clearAddFormSingle();
                 setShowAddFormSingle(true);
               }}
-              className="inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
               サービスを追加
@@ -564,7 +564,7 @@ export default function Services() {
                   placeholder="サービスを検索..."
                   value={searchQuerySingle}
                   onChange={(e) => setSearchQuerySingle(e.target.value)}
-                  className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 transition-colors duration-200 text-sm"
+                  className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-sm"
                 />
               </div>
 
@@ -582,7 +582,7 @@ export default function Services() {
                     inline-flex justify-between w-full rounded-md
                     border border-gray-300 shadow-sm px-4 py-2
                     bg-white text-sm font-medium text-gray-700
-                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                     transition-colors duration-200
                     pr-10
                   "
@@ -613,7 +613,7 @@ export default function Services() {
                     inline-flex justify-between w-full rounded-md
                     border border-gray-300 shadow-sm px-4 py-2
                     bg-white text-sm font-medium text-gray-700
-                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                     transition-colors duration-200
                     pr-10
                   "
@@ -635,7 +635,7 @@ export default function Services() {
           {/* サービスカードグリッド (単品) */}
           {loadingSingle ? (
             <div className="flex justify-center py-20">
-              <div className="animate-spin h-12 w-12 border-4 border-pink-700 border-t-transparent rounded-full"></div>
+              <div className="animate-spin h-12 w-12 border-4 border-blue-700 border-t-transparent rounded-full"></div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -650,7 +650,7 @@ export default function Services() {
                       <h3 className="text-lg font-medium text-gray-900">
                         {service.name}
                       </h3>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         {service.category}
                       </span>
                     </div>
@@ -677,7 +677,7 @@ export default function Services() {
                   <div className="mt-2 bg-gray-50 border-t border-gray-200 px-5 py-3 flex justify-end space-x-3 h-10">
                     <button
                       onClick={() => openEditFormSingle(service)}
-                      className="text-pink-600 hover:text-pink-800 transition-colors duration-200"
+                      className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
@@ -731,7 +731,7 @@ export default function Services() {
                       id="new-name-single"
                       value={newNameSingle}
                       onChange={(e) => setNewNameSingle(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -748,7 +748,7 @@ export default function Services() {
                       value={newDescriptionSingle}
                       onChange={(e) => setNewDescriptionSingle(e.target.value)}
                       rows={3}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>
 
@@ -765,7 +765,7 @@ export default function Services() {
                       min={1}
                       value={newDurationSingle}
                       onChange={(e) => setNewDurationSingle(Number(e.target.value))}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -783,7 +783,7 @@ export default function Services() {
                       min={0}
                       value={newPriceSingle}
                       onChange={(e) => setNewPriceSingle(Number(e.target.value))}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -800,7 +800,7 @@ export default function Services() {
                       id="new-category-single"
                       value={newCategorySingle}
                       onChange={(e) => setNewCategorySingle(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -820,7 +820,7 @@ export default function Services() {
                       type="submit"
                       disabled={addFormLoadingSingle}
                       className={`
-                        px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md shadow transition-colors duration-200
+                        px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors duration-200
                         ${addFormLoadingSingle ? 'opacity-50 cursor-not-allowed' : ''}
                       `}
                     >
@@ -875,7 +875,7 @@ export default function Services() {
                       id="edit-name-single"
                       value={editNameSingle}
                       onChange={(e) => setEditNameSingle(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -892,7 +892,7 @@ export default function Services() {
                       value={editDescriptionSingle}
                       onChange={(e) => setEditDescriptionSingle(e.target.value)}
                       rows={3}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>
 
@@ -911,7 +911,7 @@ export default function Services() {
                       onChange={(e) =>
                         setEditDurationSingle(Number(e.target.value))
                       }
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -931,7 +931,7 @@ export default function Services() {
                       onChange={(e) =>
                         setEditPriceSingle(Number(e.target.value))
                       }
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -948,7 +948,7 @@ export default function Services() {
                       id="edit-category-single"
                       value={editCategorySingle}
                       onChange={(e) => setEditCategorySingle(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -968,7 +968,7 @@ export default function Services() {
                       type="submit"
                       disabled={editFormLoadingSingle}
                       className={`
-                        px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md shadow transition-colors duration-200
+                        px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors duration-200
                         ${editFormLoadingSingle ? 'opacity-50 cursor-not-allowed' : ''}
                       `}
                     >
@@ -998,7 +998,7 @@ export default function Services() {
                 clearAddFormSet();
                 setShowAddFormSet(true);
               }}
-              className="inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
               メニューを追加
@@ -1018,7 +1018,7 @@ export default function Services() {
                   placeholder="メニューを検索..."
                   value={searchQuerySet}
                   onChange={(e) => setSearchQuerySet(e.target.value)}
-                  className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 transition-colors duration-200 text-sm"
+                  className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-sm"
                 />
               </div>
 
@@ -1036,7 +1036,7 @@ export default function Services() {
                     inline-flex justify-between w-full rounded-md
                     border border-gray-300 shadow-sm px-4 py-2
                     bg-white text-sm font-medium text-gray-700
-                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                     transition-colors duration-200
                     pr-10
                   "
@@ -1067,7 +1067,7 @@ export default function Services() {
                     inline-flex justify-between w-full rounded-md
                     border border-gray-300 shadow-sm px-4 py-2
                     bg-white text-sm font-medium text-gray-700
-                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                     transition-colors duration-200
                     pr-10
                   "
@@ -1089,7 +1089,7 @@ export default function Services() {
           {/* セットメニューカードグリッド */}
           {loadingSet ? (
             <div className="flex justify-center py-20">
-              <div className="animate-spin h-12 w-12 border-4 border-pink-700 border-t-transparent rounded-full"></div>
+              <div className="animate-spin h-12 w-12 border-4 border-blue-700 border-t-transparent rounded-full"></div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1104,7 +1104,7 @@ export default function Services() {
                       <h3 className="text-lg font-medium text-gray-900">
                         {menu.name}
                       </h3>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         {menu.category}
                       </span>
                     </div>
@@ -1131,7 +1131,7 @@ export default function Services() {
                   <div className="mt-2 bg-gray-50 border-t border-gray-200 px-5 py-3 flex justify-end space-x-3 h-10">
                     <button
                       onClick={() => openEditFormSet(menu)}
-                      className="text-pink-600 hover:text-pink-800 transition-colors duration-200"
+                      className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
@@ -1185,7 +1185,7 @@ export default function Services() {
                       id="new-name-set"
                       value={newNameSet}
                       onChange={(e) => setNewNameSet(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1202,7 +1202,7 @@ export default function Services() {
                       value={newDescriptionSet}
                       onChange={(e) => setNewDescriptionSet(e.target.value)}
                       rows={3}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>
 
@@ -1219,7 +1219,7 @@ export default function Services() {
                       min={1}
                       value={newDurationSet}
                       onChange={(e) => setNewDurationSet(Number(e.target.value))}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1237,7 +1237,7 @@ export default function Services() {
                       min={0}
                       value={newPriceSet}
                       onChange={(e) => setNewPriceSet(Number(e.target.value))}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1254,7 +1254,7 @@ export default function Services() {
                       id="new-category-set"
                       value={newCategorySet}
                       onChange={(e) => setNewCategorySet(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1274,7 +1274,7 @@ export default function Services() {
                       type="submit"
                       disabled={addFormLoadingSet}
                       className={`
-                        px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md shadow transition-colors duration-200
+                        px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors duration-200
                         ${addFormLoadingSet ? 'opacity-50 cursor-not-allowed' : ''}
                       `}
                     >
@@ -1328,7 +1328,7 @@ export default function Services() {
                       id="edit-name-set"
                       value={editNameSet}
                       onChange={(e) => setEditNameSet(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1345,7 +1345,7 @@ export default function Services() {
                       value={editDescriptionSet}
                       onChange={(e) => setEditDescriptionSet(e.target.value)}
                       rows={3}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>
 
@@ -1362,7 +1362,7 @@ export default function Services() {
                       min={1}
                       value={editDurationSet}
                       onChange={(e) => setEditDurationSet(Number(e.target.value))}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1380,7 +1380,7 @@ export default function Services() {
                       min={0}
                       value={editPriceSet}
                       onChange={(e) => setEditPriceSet(Number(e.target.value))}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1397,7 +1397,7 @@ export default function Services() {
                       id="edit-category-set"
                       value={editCategorySet}
                       onChange={(e) => setEditCategorySet(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                      className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       required
                     />
                   </div>
@@ -1417,7 +1417,7 @@ export default function Services() {
                       type="submit"
                       disabled={editFormLoadingSet}
                       className={`
-                        px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md shadow transition-colors duration-200
+                        px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors duration-200
                         ${editFormLoadingSet ? 'opacity-50 cursor-not-allowed' : ''}
                       `}
                     >

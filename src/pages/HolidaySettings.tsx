@@ -293,11 +293,10 @@ const HolidaySettings: React.FC = () => {
           onClick={() => navigate(-1)}
           className="text-gray-600 hover:text-gray-900"
         >
-          &larr; 戻る
         </button>
-        <h2 className="text-2xl font-serif font-bold text-purple-900">
-          休日設定
-        </h2>
+            <h1 className="text-3xl font-semibold text-gray-900">
+              休日設定
+            </h1>
         <div className="space-x-2">
           <button
             onClick={goToPrevMonth}
@@ -437,16 +436,6 @@ const HolidaySettings: React.FC = () => {
         </div>
       )}
 
-      {/* フッターの説明 */}
-      <div className="mt-6 text-sm text-gray-600">
-        <p>
-          ・過去の日付は操作不可です。<br />
-          ・赤く表示される日は「登録された休日」です。詳細画面ではスロットがすべて非活性化されます。<br />
-          ・「全休にする」で holidays テーブルに日付を登録し、全てのスロットを非活性化。<br />
-          ・「リセット (予約反映)」で holidays から当日を削除し、time_slots を Reservation に基づいて復元します。<br />
-          ・個別スロットをクリックすると、そのスロットの is_available をトグルできます（ただし休日登録済みの日は無効）。<br />
-        </p>
-      </div>
     </div>
   );
 };
