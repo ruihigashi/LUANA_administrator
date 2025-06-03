@@ -11,6 +11,7 @@ import {
     isBefore,
     startOfDay,
 } from 'date-fns';
+import { ja } from 'date-fns/locale';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
@@ -75,7 +76,7 @@ const HolidaySettings: React.FC = () => {
 
             const { data, error: fetchError } = await supabase
                 .from('holidays')
-                .select<'*', Holiday>('*') 
+                .select<'*', Holiday>('*')
                 .gte('date', fromStr)
                 .lte('date', toStr);
 
@@ -147,7 +148,7 @@ const HolidaySettings: React.FC = () => {
             const dateStr = format(dateObj, 'yyyy-MM-dd');
             const { data, error: slotError } = await supabase
                 .from('time_slots')
-                .select<'*', TimeSlot>('*') 
+                .select<'*', TimeSlot>('*')
                 .eq('date', dateStr)
                 .order('start_time', { ascending: true });
 
@@ -162,10 +163,11 @@ const HolidaySettings: React.FC = () => {
     };
 
     // ────────────────────────────────────────────────────
-    // 6) 全休にする：holidays に登録するだけ
+    // 6) 全休にする：holidays に登録 & time_slots をすべて is_available = false に更新
     const markFullDayOff = async () => {
         if (!selectedDateDetail) return;
         setError(null);
+
         try {
             const dateStr = format(selectedDateDetail, 'yyyy-MM-dd');
 
@@ -178,9 +180,16 @@ const HolidaySettings: React.FC = () => {
                 if (insHolidayError) throw insHolidayError;
             }
 
-            // UI 更新：holidays 再取得 + 時間枠を空にして全休状態を表示
-            fetchHolidays();
-            setTimeSlots([]);
+            // その日の time_slots をすべて is_available = false に更新（全休状態にする）
+            const { error: updSlotsError } = await supabase
+                .from('time_slots')
+                .update({ is_available: false })
+                .eq('date', dateStr);
+            if (updSlotsError) throw updSlotsError;
+
+            // UI 更新：holidays 再取得 + time_slots 再読み込み
+            await fetchHolidays();
+            await fetchTimeSlots(selectedDateDetail);
         } catch (e) {
             console.error('[HolidaySettings] 全休設定エラー:', e);
             setError('全休設定に失敗しました。');
@@ -205,7 +214,7 @@ const HolidaySettings: React.FC = () => {
 
             if (updError) throw updError;
             if (selectedDateDetail) {
-                fetchTimeSlots(selectedDateDetail);
+                await fetchTimeSlots(selectedDateDetail);
             }
         } catch (e) {
             console.error('[HolidaySettings] スロット更新エラー:', e);
@@ -240,7 +249,7 @@ const HolidaySettings: React.FC = () => {
             // 3. 当日の全 time_slots を取得
             const { data: slotsData, error: slotsError } = await supabase
                 .from('time_slots')
-                .select<'*', TimeSlot>('*') 
+                .select<'*', TimeSlot>('*')
                 .eq('date', dateStr);
             if (slotsError) throw slotsError;
 
@@ -277,14 +286,13 @@ const HolidaySettings: React.FC = () => {
             }
 
             // 5. UI 更新：holidays 再取得 + time_slots 再読み込み
-            fetchHolidays();
-            fetchTimeSlots(selectedDateDetail);
+            await fetchHolidays();
+            await fetchTimeSlots(selectedDateDetail);
         } catch (e) {
             console.error('[HolidaySettings] リセット処理エラー:', e);
             setError('リセットに失敗しました。');
         }
     };
-
 
     return (
         <div className="py-8 px-4 max-w-4xl mx-auto">
@@ -372,7 +380,7 @@ const HolidaySettings: React.FC = () => {
                 <div className="mt-8 bg-white shadow rounded-lg p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-medium text-gray-800">
-                            {format(selectedDateDetail, 'yyyy年MM月dd日 (EEEE)')} の時間枠
+                            {format(selectedDateDetail, 'yyyy年MM月dd日 (EEEE)', { locale: ja })} の時間枠
                         </h3>
                         <div className="space-x-2">
                             <button
@@ -412,7 +420,8 @@ const HolidaySettings: React.FC = () => {
                                             key={slot.id}
                                             onClick={() => toggleSlotAvailability(slot)}
                                             disabled={isHolidayToday}
-                                            className={`px-2 py-1 border rounded text-sm transition-colors duration-150
+                                            className={`
+                        px-2 py-1 border rounded text-sm transition-colors duration-150
                         ${isHolidayToday
                                                     ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                                                     : slot.is_available
@@ -430,7 +439,6 @@ const HolidaySettings: React.FC = () => {
                     )}
                 </div>
             )}
-
         </div>
     );
 };
