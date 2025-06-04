@@ -91,11 +91,15 @@
 
 @media (max-width: 640px) {
   .fc-dayGridMonth-view .fc-daygrid-day-frame {
-    padding-top: 0.15rem !important;
-    padding-bottom: 0.15rem !important;
+    height: 60px !important;
   }
 
-  .fc-dayGridMonth-view .fc-scrollgrid-sync-inner {
-    grid-auto-rows: 50px !important;
+  .fc-dayGridMonth-view .fc-daygrid-day-events {
+    max-height: 48px !important;
+    overflow: hidden;
+  }
+
+  .fc-dayGridMonth-view .fc-scrollgrid-section-body .fc-scrollgrid-sync-inner {
+    grid-auto-rows: 60px !important;
   }
 }
