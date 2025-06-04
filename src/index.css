@@ -34,8 +34,8 @@
 }
 
 .fc .fc-col-header-cell {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 1 1 100px;
+    min-width: 100px;
 }
 
 .fc .fc-col-header-cell-cushion {
