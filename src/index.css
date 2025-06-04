@@ -20,71 +20,71 @@
 
 .fc .fc-col-header-cell-cushion {
     white-space: nowrap;
-    /* 折り返さない */
     text-align: center;
-    /* セル内テキストを中央寄せ */
     display: block;
-    /* 幅いっぱいに広がるように */
     width: 100%;
     font-size: clamp(0.65rem, 1.2vw, 1rem) !important;
     line-height: 2.5;
 }
 
 .fc .fc-toolbar-title {
-  /* 一行で表示（改行させない） */
-  white-space: nowrap !important;
-  font-size: clamp(0.75rem, 3.2vw, 1.5rem) !important;
-  /* 必要であれば太さや余白を微調整 */
-  font-weight: 500;
-  line-height: 1;
-  text-align: center;
+    white-space: nowrap !important;
+    font-size: clamp(0.75rem, 3.2vw, 1.5rem) !important;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
 }
 
 .fc .fc-toolbar .fc-button {
-  padding: 0.5rem 1rem;   /* tailwind の px-4 py-2 相当 */
-  font-size: 1rem;    /* tailwind の text-sm 相当 */
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
 }
 
-/* ─────────────────────────────────────────────────────────────────── */
-/* 画面幅が 640px 未満（sm 未満）のときだけ「もっと小さく」する */
 @media (max-width: 640px) {
-  .fc .fc-toolbar .fc-button {
-    padding: 0.3rem 0.38rem;   /* tailwind の px-2 py-1 相当 */
-    font-size: 0.75rem; 
-  }
+    .fc .fc-toolbar .fc-button {
+        padding: 0.3rem 0.38rem;
+        font-size: 0.75rem;
+    }
 }
 
-/* ──────────────────────────────────────────────────────────────────────── */
-/* 1) FullCalendar の「日時表（timeGridWeek など）の日付列」が縮まらないようにする */
-
-/* (A) 日付ヘッダーセルを縮小禁止にする */
 .fc .fc-col-header-cell {
-  /* これにより「日付を表示するヘッダー部分」が flex-shrink: 0 となり、
-     親コンテナが狭まっても横幅が潰れなくなります。 */
-  flex-shrink: 0 !important;
-  /* 折り返しも禁止して一行で必ず表示 */
-  white-space: nowrap;
+    flex-shrink: 0 !important;
+    white-space: nowrap;
 }
 
-/* (B) 時間軸と同じように、カラム全体（時刻部分の右側に並ぶ縦セル）も縮小禁止 */
 .fc .fc-timegrid-body .fc-timegrid-cols .fc-timegrid-col {
-  /* デフォルトでは flex: 1 1 0%（縮む余地あり）になっているので、override */
-  flex-shrink: 0 !important;
-  /* 固定幅がほしい場合は下のように width を合わせても OK。（「時刻軸」と同じおよそ 4em 程度） */
-  /* width: 4em; */
+    flex-shrink: 0 !important;
 }
 
-/* 2) 同時に、「ヘッダー部分（<  今日  2025年6月1日-7日  月 週 日）」
-       のレイアウトが勝手に wrap（改行）されないように flex-shrink を切っておく */
-
-/* ヘッダーの中央タイトル（"2025年6月1日 – 7日"）が縮まらないように */
 .fc .fc-toolbar .fc-center {
-  flex-shrink: 0 !important;
+    flex-shrink: 0 !important;
 }
 
-/* ヘッダーのタイトル自体が折り返されないように一行で表示させる */
 .fc .fc-toolbar .fc-toolbar-title {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
-/* ──────────────────────────────────────────────────────────────────────── */
+.fc-dayGridMonth-view .fc-col-header {
+    display: none !important;
+}
+
+@media (max-width: 640px) {
+    .fc .fc-daygrid-day-number,
+    .fc .fc-daygrid-day-top {
+        font-size: 0.6rem !important;
+        line-height: 1 !important;
+    }
+
+    .fc .fc-daygrid-event .fc-event-title {
+        font-size: 0.65rem !important;
+        line-height: 1.1 !important;
+    }
+
+    .fc .fc-daygrid-event .fc-event-time {
+        font-size: 0.6rem !important;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        padding: 0.15rem 0.15rem !important;
+    }
+}

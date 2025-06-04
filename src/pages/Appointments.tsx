@@ -537,7 +537,6 @@ export default function Appointments() {
                   hour12: false,
                 }}
                 dayHeaderFormat={{
-                  weekday: 'short',
                   month: 'numeric',
                   day: 'numeric',
                 }}
