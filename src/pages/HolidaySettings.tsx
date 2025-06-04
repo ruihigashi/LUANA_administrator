@@ -292,7 +292,7 @@ const HolidaySettings: React.FC = () => {
   };
 
   return (
-    <div className="py-8 px-4 max-w-4xl mx-auto">
+    <div className="py-8 px-2 max-w-4xl mx-auto">
       {/* タイトル＆月切替 */}
       <div className="mb-6">
         {/* 1 行目：タイトル（左寄せ） */}
@@ -378,12 +378,12 @@ const HolidaySettings: React.FC = () => {
           {/* ヘッダー：日付タイトル＋ボタン群 */}
           <div className="flex flex-row justify-between items-center mb-4">
             {/* 日付見出し */}
-            <h3 className="text-sm sm:text-lg font-medium text-gray-800">
-              {format(selectedDateDetail, 'yyyy年MM月dd日 (EEEE)', { locale: ja })} の時間枠
+            <h3 className="text-xs sm:text-xl font-medium text-gray-800">
+              {format(selectedDateDetail, 'yyyy年MM月dd日 (EEEE)', { locale: ja })}の時間枠
             </h3>
 
             {/* ボタン群だけ、sm 未満なら縦積み、sm 以上なら横並び */}
-            <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
+            <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0">
               <button
                 onClick={markFullDayOff}
                 className="

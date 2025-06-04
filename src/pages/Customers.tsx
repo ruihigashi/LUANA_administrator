@@ -335,7 +335,7 @@ export default function Customers() {
   // JSX レンダリング
   // ────────────────────
   return (
-    <div className="p-6 space-y-6 relative">
+    <div className="p-2 md:p-6 space-y-6 relative">
       {/** ヘッダー **/}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold text-gray-900">顧客一覧</h1>

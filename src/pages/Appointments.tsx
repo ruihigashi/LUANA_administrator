@@ -404,7 +404,7 @@ export default function Appointments() {
   }, [isEditMode, editingReservation, services])
 
   return (
-    <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
+    <div className="p-2 md:p-6 bg-gray-50 min-h-screen">
       <div className="flex flex-row flex-nowrap justify-between items-center mb-4 md:mb-6 space-x-3">
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">予約一覧</h1>
         <button

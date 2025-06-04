@@ -498,7 +498,7 @@ export default function Services() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-2 md:p-6 bg-gray-50 min-h-screen">
       {/* ─────────────────────────────────────────────────────────── */}
       {/* タブ切り替えボタン */}
       {/* ─────────────────────────────────────────────────────────── */}
@@ -506,14 +506,14 @@ export default function Services() {
         <button
           onClick={() => setMenuType('single')}
           className={`
-            px-6 py-2 rounded-md text-sm sm:text-base border font-medium transition-colors duration-200
+            px-6 py-2 rounded-md text-xs sm:text-base border font-medium transition-colors duration-200
             ${menuType === 'single'
               ? 'bg-blue-600 text-white'
               : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-100'
             }
           `}
         >
-          単品サービス管理
+          単品メニュー
         </button>
         <button
           onClick={() => setMenuType('set')}
@@ -525,7 +525,7 @@ export default function Services() {
             }
           `}
         >
-          セットメニュー管理
+          セットメニュー
         </button>
       </div>
 
@@ -537,17 +537,17 @@ export default function Services() {
           {/* ヘッダー */}
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">
-              単品サービス一覧管理
+              単品メニュー管理
             </h1>
             <button
               onClick={() => {
                 clearAddFormSingle();
                 setShowAddFormSingle(true);
               }}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-base font-medium rounded-md shadow transition-colors duration-200"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-base font-medium rounded-md shadow transition-colors duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
-              サービスを追加
+              メニューを追加
             </button>
           </div>
 
@@ -561,7 +561,7 @@ export default function Services() {
                 </div>
                 <input
                   type="text"
-                  placeholder="サービスを検索..."
+                  placeholder="メニューを検索..."
                   value={searchQuerySingle}
                   onChange={(e) => setSearchQuerySingle(e.target.value)}
                   className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-sm"
@@ -990,15 +990,15 @@ export default function Services() {
         <>
           {/* ヘッダー */}
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-semibold text-gray-900">
-              セットメニュー一覧管理
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">
+              セットメニュー管理
             </h1>
             <button
               onClick={() => {
                 clearAddFormSet();
                 setShowAddFormSet(true);
               }}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-base font-medium rounded-md shadow transition-colors duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
               メニューを追加
