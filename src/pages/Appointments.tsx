@@ -500,7 +500,7 @@ export default function Appointments() {
               <div className="animate-spin h-8 w-8 md:h-12 md:w-12 border-4 border-blue-700 border-t-transparent rounded-full"></div>
             </div>
           ) : viewType === 'calendar' ? (
-            <div className="h-[calc(100vh-20px)] md:h-[calc(100vh-0px)]">
+            <div className="calendar-container h-[calc(100vh-20px)] md:h-[calc(100vh-0px)]">
               <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
