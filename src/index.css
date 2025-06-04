@@ -15,7 +15,7 @@
 
 .fc .fc-col-header-cell {
     min-width: 80px;
-    padding: 0 4px !important;
+    padding: 0 !important;
 }
 
 .fc .fc-col-header-cell-cushion {
