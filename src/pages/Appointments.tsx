@@ -404,11 +404,11 @@ export default function Appointments() {
   }, [isEditMode, editingReservation, services])
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-semibold text-gray-900">予約一覧</h1>
+    <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
+      <div className="flex flex-row flex-nowrap justify-between items-center mb-4 md:mb-6 space-x-3">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">予約一覧</h1>
         <button
-          className="inline-flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
+          className="inline-flex items-center px-3 md:px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-xs md:text-sm font-medium rounded-md shadow transition-colors duration-200"
           onClick={() => {
             resetForm()
             setDateValue(format(new Date(), 'yyyy-MM-dd'))
@@ -417,41 +417,40 @@ export default function Appointments() {
             setIsModalOpen(true)
           }}
         >
-          <Plus className="h-4 w-4 mr-2" />
-          新規予約
+          <Plus className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
+          <span>新規予約</span>
         </button>
       </div>
 
       <div className="bg-white shadow rounded-lg overflow-hidden">
-        <div className="px-4 py-5 sm:p-6">
+        <div className="px-4 py-5 sm:px-6 sm:py-6">
           <div className="flex flex-col md:flex-row justify-between mb-4 space-y-3 md:space-y-0 md:space-x-3">
-            <div className="flex space-x-2">
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
               <button
                 onClick={() => setViewType('calendar')}
-                className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  viewType === 'calendar'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
+                className={`px-2 md:px-3 py-2 text-xs md:text-sm font-medium rounded-md border transition-colors duration-200 ${viewType === 'calendar'
+                    ? 'border-blue-700 bg-blue-100 text-blue-700'
+                    : 'border-gray-300 text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }
+  `}
               >
                 <CalendarIcon className="w-4 h-4 inline mr-1" />
                 カレンダー
               </button>
               <button
                 onClick={() => setViewType('list')}
-                className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  viewType === 'list'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
+                className={`px-2 md:px-3 py-2 text-xs md:text-sm font-medium rounded-md border transition-colors duration-200 ${viewType === 'list'
+                  ? 'border-blue-700 bg-blue-100 text-blue-700'
+                  : 'border-gray-300 text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
               >
                 <CalendarIcon className="w-4 h-4 inline mr-1" />
                 リスト
               </button>
             </div>
 
-            <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-              <div className="relative">
+            <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3 w-full md:w-auto">
+              <div className="relative flex-1 md:flex-none">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-4 w-4 text-gray-400" />
                 </div>
@@ -460,11 +459,11 @@ export default function Appointments() {
                   placeholder="予約を検索"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors duration-200"
+                  className="block w-full md:w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors duration-200"
                 />
               </div>
 
-              <div className="relative inline-block text-left">
+              <div className="relative inline-block text-left w-full md:w-auto">
                 <label htmlFor="status-select" className="sr-only">
                   ステータス
                 </label>
@@ -473,21 +472,23 @@ export default function Appointments() {
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
                   className="
-                    appearance-none
-                    inline-flex justify-between w-full rounded-md
-                    border border-gray-300 shadow-sm px-4 py-2
-                    bg-white text-sm font-medium text-gray-700
-                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                    transition-colors duration-200
-                    pr-10
-                  "
+                      appearance-none
+                      w-full md:w-auto
+                      inline-flex justify-between
+                      rounded-md
+                      border border-gray-300 shadow-sm px-3 py-2
+                      bg-white text-sm font-medium text-gray-700
+                      hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+                      transition-colors duration-200
+                      pr-8
+                    "
                 >
                   <option value="all">ステータス: 全て</option>
                   <option value="confirmed">確定</option>
                   <option value="pending">保留</option>
                   <option value="cancelled">キャンセル</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                <div className="pointer-events-none absolute inset-y-0 right-2 md:right-3 flex items-center">
                   <ChevronDown className="h-4 w-4 text-gray-500" />
                 </div>
               </div>
@@ -496,10 +497,10 @@ export default function Appointments() {
 
           {loading ? (
             <div className="flex justify-center my-12">
-              <div className="animate-spin h-12 w-12 border-4 border-blue-700 border-t-transparent rounded-full"></div>
+              <div className="animate-spin h-8 w-8 md:h-12 md:w-12 border-4 border-blue-700 border-t-transparent rounded-full"></div>
             </div>
           ) : viewType === 'calendar' ? (
-            <div className="h-[calc(100vh-200px)]">
+            <div className="h-[calc(100vh-20px)] md:h-[calc(100vh-0px)]">
               <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -547,19 +548,19 @@ export default function Appointments() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       日時
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       顧客
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       サービス (所要時間)
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       ステータス
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 md:px-6 py-3 text-left text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">
                       操作
                     </th>
                   </tr>
@@ -579,7 +580,7 @@ export default function Appointments() {
                           key={evt.id?.toString()}
                           className="hover:bg-gray-50 transition-colors"
                         >
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
                             {startDt.toLocaleString('ja-JP', {
                               year: 'numeric',
                               month: '2-digit',
@@ -593,27 +594,27 @@ export default function Appointments() {
                               minute: '2-digit',
                             })}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
                             {customer}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
                             {service} ({duration}h)
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                             <select
                               value={status}
                               onChange={(e) =>
                                 updateReservationStatus(evt.id as string, e.target.value as any)
                               }
-                              className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              className="w-full text-xs md:text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                               <option value="pending">保留</option>
                               <option value="confirmed">確定</option>
                               <option value="cancelled">キャンセル</option>
                             </select>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            <div className="flex justify-start space-x-4">
+                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
+                            <div className="flex space-x-2 md:space-x-4">
                               <button
                                 className="text-blue-600 hover:text-blue-900"
                                 onClick={() =>
@@ -625,13 +626,13 @@ export default function Appointments() {
                                   } as EventClickArg)
                                 }
                               >
-                                <EditIcon className="h-5 w-5" />
+                                <EditIcon className="h-4 w-4 md:h-5 md:w-5" />
                               </button>
                               <button
                                 className="text-red-600 hover:text-red-900"
                                 onClick={() => handleDeleteReservation(evt.id as string)}
                               >
-                                <TrashIcon className="h-5 w-5" />
+                                <TrashIcon className="h-4 w-4 md:h-5 md:w-5" />
                               </button>
                             </div>
                           </td>
@@ -640,7 +641,7 @@ export default function Appointments() {
                     })
                   ) : (
                     <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                      <td colSpan={5} className="px-4 md:px-6 py-4 text-center text-xs md:text-sm text-gray-500">
                         該当する予約が見つかりません
                       </td>
                     </tr>
@@ -653,13 +654,13 @@ export default function Appointments() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/50 p-4">
           <div
             ref={modalRef}
-            className="bg-white rounded-lg shadow-lg w-full max-w-lg mx-4 md:mx-0 overflow-y-auto max-h-[90vh]"
+            className="bg-white rounded-lg shadow-lg w-full max-w-md md:max-w-lg overflow-y-auto max-h-[90vh]"
           >
             <div className="flex justify-between items-center border-b border-gray-200 px-4 py-3">
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-900">
                 {isEditMode ? '予約編集' : '新規予約作成'}
               </h2>
               <button
@@ -673,7 +674,7 @@ export default function Appointments() {
             </div>
 
             <form onSubmit={handleSubmitReservation} className="px-4 py-5 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-700 mb-1">
                     姓 <span className="text-red-500">必須</span>
@@ -684,11 +685,10 @@ export default function Appointments() {
                     onChange={(e) => setLastName(e.target.value)}
                     required
                     placeholder="山田"
-                    className={`w-full p-3 border rounded-md focus:outline-none ${
-                      lastName.trim() === ''
-                        ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                    }`}
+                    className={`w-full p-2 md:p-3 border rounded-md focus:outline-none ${lastName.trim() === ''
+                      ? 'border-red-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
+                      } text-xs md:text-sm`}
                   />
                 </div>
                 <div>
@@ -701,16 +701,15 @@ export default function Appointments() {
                     onChange={(e) => setFirstName(e.target.value)}
                     required
                     placeholder="太郎"
-                    className={`w-full p-3 border rounded-md focus:outline-none ${
-                      firstName.trim() === ''
-                        ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                    }`}
+                    className={`w-full p-2 md:p-3 border rounded-md focus:outline-none ${firstName.trim() === ''
+                      ? 'border-red-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
+                      } text-xs md:text-sm`}
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-700 mb-1">
                     姓カナ <span className="text-red-500">必須</span>
@@ -721,11 +720,10 @@ export default function Appointments() {
                     onChange={(e) => setLastNameKana(e.target.value)}
                     required
                     placeholder="ヤマダ"
-                    className={`w-full p-3 border rounded-md focus:outline-none ${
-                      lastNameKana.trim() === ''
-                        ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                    }`}
+                    className={`w-full p-2 md:p-3 border rounded-md focus:outline-none ${lastNameKana.trim() === ''
+                      ? 'border-red-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
+                      } text-xs md:text-sm`}
                   />
                 </div>
                 <div>
@@ -738,11 +736,10 @@ export default function Appointments() {
                     onChange={(e) => setFirstNameKana(e.target.value)}
                     required
                     placeholder="タロウ"
-                    className={`w-full p-3 border rounded-md focus:outline-none ${
-                      firstNameKana.trim() === ''
-                        ? 'border-red-500'
-                        : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                    }`}
+                    className={`w-full p-2 md:p-3 border rounded-md focus:outline-none ${firstNameKana.trim() === ''
+                      ? 'border-red-500'
+                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
+                      } text-xs md:text-sm`}
                   />
                 </div>
               </div>
@@ -757,11 +754,10 @@ export default function Appointments() {
                   onChange={(e) => setPhone(e.target.value)}
                   required
                   placeholder="09012345678"
-                  className={`w-full p-3 border rounded-md focus:outline-none ${
-                    phone.trim() === ''
-                      ? 'border-red-500'
-                      : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
-                  }`}
+                  className={`w-full p-2 md:p-3 border rounded-md focus:outline-none ${phone.trim() === ''
+                    ? 'border-red-500'
+                    : 'border-gray-300 focus:ring-2 focus:ring-blue-500'
+                    } text-xs md:text-sm`}
                 />
               </div>
 
@@ -769,15 +765,14 @@ export default function Appointments() {
                 <label className="block text-gray-700 mb-1">
                   サービスを選択 <span className="text-red-500">必須</span>
                 </label>
-                <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto border border-gray-300 rounded-md p-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-36 md:max-h-40 overflow-y-auto border border-gray-300 rounded-md p-2">
                   {services.map((svc) => {
                     const isChecked = selectedServiceIds.includes(svc.id)
                     return (
                       <label
                         key={svc.id}
-                        className={`flex items-center p-2 border rounded-md cursor-pointer ${
-                          isChecked ? 'bg-blue-50 border-blue-300' : 'hover:bg-gray-50'
-                        }`}
+                        className={`flex items-center p-2 border rounded-md cursor-pointer ${isChecked ? 'bg-blue-50 border-blue-300' : 'hover:bg-gray-50'
+                          }`}
                       >
                         <input
                           type="checkbox"
@@ -786,8 +781,8 @@ export default function Appointments() {
                           className="mr-2"
                         />
                         <div>
-                          <p className="text-sm font-medium">{svc.name}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs md:text-sm font-medium">{svc.name}</p>
+                          <p className="text-[10px] md:text-xs text-gray-500">
                             {svc.duration}分　¥{svc.price.toLocaleString()}
                           </p>
                         </div>
@@ -806,12 +801,12 @@ export default function Appointments() {
                   value={dateValue}
                   onChange={(e) => setDateValue(e.target.value)}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs md:text-sm"
                   min={format(new Date(), 'yyyy-MM-dd')}
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-700 mb-1">
                     開始時間 <span className="text-red-500">必須</span>
@@ -821,7 +816,7 @@ export default function Appointments() {
                     value={selectedStartTime}
                     onChange={(e) => setSelectedStartTime(e.target.value)}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs md:text-sm"
                   />
                 </div>
                 <div>
@@ -833,7 +828,7 @@ export default function Appointments() {
                     value={selectedEndTime}
                     onChange={(e) => setSelectedEndTime(e.target.value)}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs md:text-sm"
                   />
                 </div>
               </div>
@@ -846,7 +841,7 @@ export default function Appointments() {
                   value={statusValue}
                   onChange={(e) => setStatusValue(e.target.value as any)}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs md:text-sm"
                 >
                   <option value="pending">保留</option>
                   <option value="confirmed">確定</option>
@@ -860,14 +855,14 @@ export default function Appointments() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="何かあればご記入ください"
-                  className="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full h-20 md:h-24 p-2 md:p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-xs md:text-sm"
                 />
               </div>
 
-              <div className="flex justify-end space-x-2">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
                 <button
                   type="button"
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+                  className="w-full sm:w-auto px-3 md:px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors text-xs md:text-sm"
                   onClick={() => {
                     setIsModalOpen(false)
                     setEditingReservation(null)
@@ -877,7 +872,7 @@ export default function Appointments() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors"
+                  className="w-full sm:w-auto px-3 md:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition-colors text-xs md:text-sm"
                 >
                   {isEditMode ? '更新する' : '予約を作成'}
                 </button>

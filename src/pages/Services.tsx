@@ -506,10 +506,10 @@ export default function Services() {
         <button
           onClick={() => setMenuType('single')}
           className={`
-            px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200
+            px-6 py-2 rounded-md text-sm sm:text-base border font-medium transition-colors duration-200
             ${menuType === 'single'
               ? 'bg-blue-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-100'
             }
           `}
         >
@@ -518,10 +518,10 @@ export default function Services() {
         <button
           onClick={() => setMenuType('set')}
           className={`
-            px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200
+            px-6 py-2 rounded-md text-xs border sm:text-base font-medium transition-colors duration-200
             ${menuType === 'set'
               ? 'bg-blue-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-100'
             }
           `}
         >
@@ -536,7 +536,7 @@ export default function Services() {
         <>
           {/* ヘッダー */}
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-semibold text-gray-900">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">
               単品サービス一覧管理
             </h1>
             <button
@@ -544,7 +544,7 @@ export default function Services() {
                 clearAddFormSingle();
                 setShowAddFormSingle(true);
               }}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow transition-colors duration-200"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-base font-medium rounded-md shadow transition-colors duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
               サービスを追加
