@@ -90,7 +90,7 @@ export default function DashboardLayout() {
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex flex-col items-center text-center px-4 cursor-pointer">
                 <p className="text-xs text-gray-500 tracking-widest font-great">Hair Salon</p>
-                <h1 className="text-lg font-luana tracking-widest text-gray-700">
+                <h1 className="text-lg tracking-widest text-gray-700">
                   LUANA • S • MIRUTO
                 </h1>
               </div>

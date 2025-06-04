@@ -122,9 +122,13 @@ export default function Customers() {
   const sortedCustomers = [...filteredCustomers].sort((a, b) => {
     switch (sortBy) {
       case 'name_asc':
-        return `${a.last_name} ${a.first_name}`.localeCompare(`${b.last_name} ${b.first_name}`);
+        return `${a.last_name} ${a.first_name}`.localeCompare(
+          `${b.last_name} ${b.first_name}`
+        );
       case 'name_desc':
-        return `${b.last_name} ${b.first_name}`.localeCompare(`${a.last_name} ${a.first_name}`);
+        return `${b.last_name} ${b.first_name}`.localeCompare(
+          `${a.last_name} ${a.first_name}`
+        );
       case 'recent':
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       default:
@@ -137,10 +141,53 @@ export default function Customers() {
   // ────────────────────
   async function handleDelete(id: number) {
     if (!window.confirm('本当にこの顧客を削除しますか？')) return;
+
     try {
-      const { error } = await supabase.from('customers').delete().eq('id', id);
-      if (error) {
-        alert('削除に失敗しました: ' + error.message);
+      // ─────────────────────────────────────────────
+      // 1) この顧客IDに紐づく予約をすべて取得
+      //    （後で time_slots を空きに戻すため）
+      const { data: reservations, error: fetchResError } = await supabase
+        .from('reservations')
+        .select('id, date, start_time, end_time')
+        .eq('customer_id', id);
+      if (fetchResError) {
+        console.error('予約取得エラー:', fetchResError);
+        alert('予約情報の取得に失敗しました。');
+        return;
+      }
+
+      // 2) 取得した予約ごとに、time_slots テーブルの is_available を true に戻す
+      if (reservations) {
+        for (const resv of reservations) {
+          // 日付が一致し、開始時刻 >= start_time かつ start_time < end_time の行を空きに戻す
+          const { error: updateTsError } = await supabase
+            .from('time_slots')
+            .update({ is_available: true })
+            .eq('date', resv.date)
+            .gte('start_time', resv.start_time)
+            .lt('start_time', resv.end_time);
+          if (updateTsError) {
+            console.error('time_slots 更新エラー:', updateTsError);
+            // エラーが出ても処理を続けたいので alert は出さない
+          }
+        }
+      }
+
+      // 3) この顧客の予約そのものを削除
+      const { error: delResError } = await supabase
+        .from('reservations')
+        .delete()
+        .eq('customer_id', id);
+      if (delResError) {
+        console.error('予約削除エラー:', delResError);
+        alert('予約の削除に失敗しました。');
+        return;
+      }
+
+      // 4) 最後に顧客を削除
+      const { error: custError } = await supabase.from('customers').delete().eq('id', id);
+      if (custError) {
+        alert('削除に失敗しました: ' + custError.message);
       } else {
         await fetchCustomers();
       }
