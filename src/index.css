@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* src/styles/fullcalendar-overrides.css */
-
-/* 既存のヘッダー折り返し防止 */
 .fc .fc-toolbar.fc-header-toolbar {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -12,43 +9,45 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.fc .fc-toolbar.fc-header-toolbar .fc-toolbar-chunk {
-    flex: 0 0 auto !important;
+.fc .fc-toolbar .fc-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
 }
 
-/* ─────────────────────────────────
-   列ヘッダ（6/1(日) 6/2(月) …） を中央に配置し、圧縮時にはみ出さないように
-───────────────────────────────── */
-.fc .fc-col-header-cell {
-    /* 最低限このくらいの幅は確保しておく（お好みで調整してください） */
-    min-width: 80px;
-    padding: 0 4px !important;
+@media (max-width: 640px) {
+  .fc .fc-toolbar .fc-button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
 }
 
-.fc .fc-col-header-cell-cushion {
-    white-space: nowrap;
-    /* 折り返さない */
-    text-align: center;
-    /* セル内テキストを中央寄せ */
-    display: block;
-    /* 幅いっぱいに広がるように */
-    width: 100%;
-    font-size: clamp(0.65rem, 1.2vw, 1rem) !important;
-    line-height: 1.2;
+.fc .fc-toolbar .fc-center {
+  flex-shrink: 0 !important;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   FullCalendar のツールバータイトル（2025年6月1日 – 7日）の
-   フォントサイズを、画面幅に応じて縮小する設定
-─────────────────────────────────────────────────────────────── */
-.fc .fc-toolbar-title {
-  /* 一行で表示（改行させない） */
+.fc .fc-toolbar .fc-toolbar-title {
   white-space: nowrap !important;
-  /* 横幅に応じてフォントサイズを縮小する */
-  /* clamp(最小サイズ, ビューポート幅に連動する推奨サイズ, 最大サイズ) */
-  font-size: clamp(0.75rem, 3.2vw, 1.5rem) !important;
-  /* 必要であれば太さや余白を微調整 */
+  font-size: clamp(0.75rem, 3.5vw, 1.5rem) !important;
   font-weight: 500;
   line-height: 1.2;
   text-align: center;
+}
+
+.fc .fc-col-header-cell {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.fc .fc-col-header-cell-cushion {
+    white-space: normal;
+    text-align: center;
+    padding: 0.5rem 0.25rem !important;
+    font-size: clamp(0.65rem, 1.2vw, 1rem) !important;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+}
+
+.fc .fc-timegrid-body .fc-timegrid-cols .fc-timegrid-col {
+  flex-shrink: 0 !important;
 }

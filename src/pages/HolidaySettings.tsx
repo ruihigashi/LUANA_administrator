@@ -379,16 +379,16 @@ const HolidaySettings: React.FC = () => {
           <div className="flex flex-row justify-between items-center mb-4">
             {/* 日付見出し */}
             <h3 className="text-xs sm:text-xl font-medium text-gray-800">
-              {format(selectedDateDetail, 'yyyy年MM月dd日 (EEEE)', { locale: ja })}の時間枠
+              {format(selectedDateDetail, 'yyyy年MM月dd日 (EEEE)', { locale: ja })}
             </h3>
 
             {/* ボタン群だけ、sm 未満なら縦積み、sm 以上なら横並び */}
-            <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0">
+            <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-0.5 sm:space-y-0">
               <button
                 onClick={markFullDayOff}
                 className="
                   w-32 sm:w-40
-                  px-3 py-1
+                  px-3 py-0.5
                   bg-red-500 text-white rounded
                   hover:bg-red-600
                   text-xs sm:text-sm
@@ -401,7 +401,7 @@ const HolidaySettings: React.FC = () => {
                 onClick={clearFullDayOff}
                 className="
                   w-32 sm:w-40
-                  px-5 py-1
+                  px-5 py-0.5
                   bg-green-500 text-white rounded
                   hover:bg-green-600
                   text-xs sm:text-sm
