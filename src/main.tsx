@@ -1,8 +1,4 @@
-if (import.meta.env.DEV) {
-  const VConsole = require('vconsole');
-  // @ts-ignore
-  new VConsole(); 
-}
+alert('main.tsx が読み込まれました');
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
