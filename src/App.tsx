@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+alert('App.tsx が読み込まれました');
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
