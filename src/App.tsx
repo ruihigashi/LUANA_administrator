@@ -68,7 +68,7 @@ function App() {
     });
   }, []);
   // ── ここまで追加 ──
-
+alert('App の render 関数に入りました');
   return (
     <AuthProvider>
       <Router>
