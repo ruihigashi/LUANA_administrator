@@ -1,8 +1,7 @@
-// ── モバイルデバッグ用コンソール eruda の読み込み ──
 if (import.meta.env.DEV) {
-  import('eruda').then(({ default: eruda }) => {
-    eruda.init();
-  });
+  const VConsole = require('vconsole');
+  // @ts-ignore
+  new VConsole(); 
 }
 
 import { StrictMode } from 'react';
