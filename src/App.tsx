@@ -1,4 +1,6 @@
-import React from 'react';
+// src/App.tsx
+
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../src/context/AuthContext';
 import LoginForm from '@components/auth/LoginForm';
@@ -9,6 +11,17 @@ import Customers from '@pages/Customers';
 import Services from '@pages/Services';
 import NotFound from '@pages/NotFound';
 import HolidaySettings from '@pages/HolidaySettings';
+import { supabase } from './lib/supabase';
+
+// VAPID 公開キーを Uint8Array に変換するユーティリティ
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  return new Uint8Array([...rawData].map((c) => c.charCodeAt(0)));
+}
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, isLoading } = useAuth();
@@ -29,16 +42,42 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
+  // ── ここから追加 ──
+  useEffect(() => {
+    // 通知の権限をリクエスト
+    Notification.requestPermission().then((permission) => {
+      if (permission !== 'granted') return;
+      // Service Worker の準備完了を待ってから購読開始
+      navigator.serviceWorker.ready.then(async (registration) => {
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(
+            process.env.REACT_APP_VAPID_PUBLIC_KEY!
+          ),
+        });
+        const { error } = await supabase
+          .from('push_subscriptions')
+          .insert({ subscription: subscription.toJSON() });
+        if (error) {
+          console.error('Failed to save subscription:', error);
+        } else {
+          console.log('Push subscription saved!');
+        }
+      });
+    });
+  }, []);
+  // ── ここまで追加 ──
+
   return (
     <AuthProvider>
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
 
-          {/* "/" にアクセスしたら dashboard へ */}
+          {/* / に来たら /dashboard へ */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-          {/* プロテクトされたルート（相対パスに修正） */}
+          {/* 認証保護されたルート */}
           <Route
             path="/"
             element={
@@ -61,6 +100,5 @@ function App() {
     </AuthProvider>
   );
 }
-
 
 export default App;
