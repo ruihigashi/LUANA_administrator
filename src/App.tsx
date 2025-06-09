@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-alert('App.tsx が読み込まれました');
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -67,8 +66,7 @@ function App() {
       });
     });
   }, []);
-  // ── ここまで追加 ──
-alert('App の render 関数に入りました');
+
   return (
     <AuthProvider>
       <Router>
