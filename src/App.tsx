@@ -1,4 +1,4 @@
-// src/App.tsx
+/// <reference types="vite/client" />
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -52,7 +52,7 @@ function App() {
         const subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(
-            process.env.REACT_APP_VAPID_PUBLIC_KEY!
+            import.meta.env.VITE_VAPID_PUBLIC_KEY!
           ),
         });
         const { error } = await supabase
