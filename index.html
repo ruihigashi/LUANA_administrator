@@ -22,7 +22,10 @@
           allowLocalhostAsSecureOrigin: true,
           notifyButton: { enable: true },
         });
-              OneSignal.showNativePrompt();
+      console.log("[OneSignal] init() 完了");
+      // 強制的にネイティブプロンプト
+      OneSignal.showNativePrompt();
+      console.log("[OneSignal] showNativePrompt() 呼び出し");
       });
     </script>
     <!-- ↑↑↑ ここまで ↑↑↑ -->
