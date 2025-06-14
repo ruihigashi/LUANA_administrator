@@ -3,6 +3,9 @@
     "target": "ES2022",
     "lib": ["ES2023"],
     "module": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
 
     /* Bundler mode */

@@ -12,24 +12,6 @@
       rel="stylesheet"
     />
 
-    <!-- ↓↓↓ OneSignal SDK をここに追加 ↓↓↓ -->
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    <script>
-      window.OneSignal = window.OneSignal || [];
-      OneSignal.push(() => {
-        OneSignal.init({
-          appId: "77599c03-f73a-4f35-b50f-532dc3689987",
-          allowLocalhostAsSecureOrigin: true,
-          notifyButton: { enable: true },
-        });
-      console.log("[OneSignal] init() 完了");
-      // 強制的にネイティブプロンプト
-      OneSignal.showNativePrompt();
-      console.log("[OneSignal] showNativePrompt() 呼び出し");
-      });
-    </script>
-    <!-- ↑↑↑ ここまで ↑↑↑ -->
-
   </head>
   <body>
     <div id="root"></div>
