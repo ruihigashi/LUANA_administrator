@@ -12,16 +12,6 @@ import Services from '@pages/Services';
 import NotFound from '@pages/NotFound';
 import HolidaySettings from '@pages/HolidaySettings';
 
-// VAPID 公開キーを Uint8Array に変換するユーティリティ
-function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  return new Uint8Array([...rawData].map((c) => c.charCodeAt(0)));
-}
-
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, isLoading } = useAuth();
 
