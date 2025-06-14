@@ -11,7 +11,6 @@ import Customers from '@pages/Customers';
 import Services from '@pages/Services';
 import NotFound from '@pages/NotFound';
 import HolidaySettings from '@pages/HolidaySettings';
-import { supabase } from './lib/supabase';
 
 // VAPID 公開キーを Uint8Array に変換するユーティリティ
 function urlBase64ToUint8Array(base64String: string) {
@@ -42,31 +41,6 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
-  // ── ここから追加 ──
-  useEffect(() => {
-    // 通知の権限をリクエスト
-    Notification.requestPermission().then((permission) => {
-      if (permission !== 'granted') return;
-      // Service Worker の準備完了を待ってから購読開始
-      navigator.serviceWorker.ready.then(async (registration) => {
-        const subscription = await registration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(
-            import.meta.env.VITE_VAPID_PUBLIC_KEY!
-          ),
-        });
-        const { error } = await supabase
-          .from('push_subscriptions')
-          .insert({ subscription: subscription.toJSON() });
-        if (error) {
-          console.error('Failed to save subscription:', error);
-        } else {
-          console.log('Push subscription saved!');
-        }
-      });
-    });
-  }, []);
-
   return (
     <AuthProvider>
       <Router>
