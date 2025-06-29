@@ -19,15 +19,8 @@ if (!supabaseKey) {
 console.log('Final Supabase URL:', supabaseUrl);
 console.log('Final Supabase Key (first 20 chars):', supabaseKey.substring(0, 20) + '...');
 
-// Supabaseクライアントの初期化をtry-catchで囲む
-let supabase: ReturnType<typeof createClient<Database>>;
-try {
-  console.log('Initializing Supabase client...');
-  supabase = createClient<Database>(supabaseUrl, supabaseKey);
-  console.log('Supabase client initialized successfully');
-} catch (error) {
-  console.error('Error initializing Supabase client:', error);
-  throw error;
-}
+// Supabaseクライアントの初期化
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+console.log('Supabase client initialized successfully');
 
 export { supabase };
