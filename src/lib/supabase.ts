@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+
 export type Database = any;
 
 // 環境変数から取得、フォールバック値も設定
@@ -23,4 +24,8 @@ console.log('Final Supabase Key (first 20 chars):', supabaseKey.substring(0, 20)
 const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 console.log('Supabase client initialized successfully');
 
+// 名前付きエクスポート
 export { supabase };
+
+// デフォルトエクスポート
+export default supabase;
