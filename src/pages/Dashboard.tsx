@@ -1,7 +1,7 @@
 // src/pages/Dashboard.tsx
 
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import supabase from '../lib/supabase';
 import { Calendar, Scissors, Users, TrendingUp, Bell, BellOff } from 'lucide-react';
 import {
   format,
@@ -52,6 +52,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [notificationEnabled, setNotificationEnabled] = useState(false);
   const [isRegisteringNotification, setIsRegisteringNotification] = useState(false);
+  const [fcmToken, setFcmToken] = useState<string | null>(null);
 
   // 通知設定の確認
   useEffect(() => {
@@ -67,6 +68,36 @@ export default function Dashboard() {
     
     checkNotificationStatus();
   }, []);
+
+  // FCMトークンの確認
+  const checkFCMToken = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('fcm_tokens')
+        .select('token')
+        .eq('user_id', 'admin')
+        .eq('is_admin', true)
+        .single();
+
+      if (error) {
+        console.error('FCMトークン取得エラー:', error);
+        alert('FCMトークンの取得に失敗しました');
+        return;
+      }
+
+      if (data) {
+        setFcmToken(data.token);
+        console.log('FCMトークン:', data.token.substring(0, 20) + '...');
+        alert(`FCMトークンが保存されています: ${data.token.substring(0, 20)}...`);
+      } else {
+        setFcmToken(null);
+        alert('FCMトークンが見つかりません');
+      }
+    } catch (error) {
+      console.error('FCMトークン確認エラー:', error);
+      alert('FCMトークンの確認に失敗しました');
+    }
+  };
 
   // 通知設定ボタンのハンドラー
   const handleNotificationSetup = async () => {
@@ -244,6 +275,14 @@ export default function Dashboard() {
               {isRegisteringNotification ? '設定中...' : '通知を有効にする'}
             </button>
           )}
+          
+          {/* FCMトークン確認ボタン */}
+          <button
+            onClick={checkFCMToken}
+            className="flex items-center px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm rounded-md transition-colors"
+          >
+            <span>トークン確認</span>
+          </button>
         </div>
       </div>
 
