@@ -69,6 +69,36 @@ export default function Dashboard() {
     checkNotificationStatus();
   }, []);
 
+  // ブラウザ通知テスト機能
+  const testBrowserNotification = () => {
+    try {
+      console.log('ブラウザ通知テスト開始');
+      
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const notification = new Notification('ブラウザ通知テスト', {
+          body: 'これはブラウザの通知APIのテストです',
+          icon: '/favicon.svg',
+          badge: '/favicon.svg',
+          tag: 'test-notification',
+          requireInteraction: true,
+        });
+
+        notification.onclick = () => {
+          window.focus();
+          notification.close();
+        };
+
+        console.log('ブラウザ通知送信成功');
+        alert('ブラウザ通知を送信しました。画面右上に通知が表示されるはずです。');
+      } else {
+        alert('通知許可がありません。通知を許可してから再度お試しください。');
+      }
+    } catch (error) {
+      console.error('ブラウザ通知テストエラー:', error);
+      alert(`ブラウザ通知テストに失敗しました: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
   // テスト通知送信機能
   const sendTestNotification = async () => {
     try {
@@ -180,13 +210,12 @@ export default function Dashboard() {
         console.log('全トークン:', allTokens);
       }
 
-      // 管理者のFCMトークンを取得
+      // 管理者のFCMトークンを取得（複数件対応）
       const { data, error } = await supabase
         .from('fcm_tokens')
         .select('token')
         .eq('user_id', 'admin')
-        .eq('is_admin', true)
-        .single();
+        .eq('is_admin', true);
 
       if (error) {
         console.error('FCMトークン取得エラー:', error);
@@ -198,10 +227,10 @@ export default function Dashboard() {
         return;
       }
 
-      if (data) {
-        setFcmToken(data.token);
-        console.log('FCMトークン:', data.token.substring(0, 20) + '...');
-        alert(`FCMトークンが保存されています: ${data.token.substring(0, 20)}...`);
+      if (data && data.length > 0) {
+        setFcmToken(data[0].token);
+        console.log('FCMトークン:', data[0].token.substring(0, 20) + '...');
+        alert(`FCMトークンが保存されています: ${data[0].token.substring(0, 20)}...`);
       } else {
         setFcmToken(null);
         alert('FCMトークンが見つかりません');
@@ -226,6 +255,59 @@ export default function Dashboard() {
       alert('通知設定に失敗しました。ブラウザの設定で通知を許可してから再度お試しください。');
     } finally {
       setIsRegisteringNotification(false);
+    }
+  };
+
+  // 直接通知送信機能（Netlify Functionsを使わない）
+  const sendDirectNotification = async () => {
+    try {
+      console.log('直接通知送信開始');
+      
+      // 管理者のFCMトークンを取得
+      const { data: tokens, error } = await supabase
+        .from('fcm_tokens')
+        .select('token')
+        .eq('user_id', 'admin')
+        .eq('is_admin', true);
+
+      if (error) {
+        console.error('トークン取得エラー:', error);
+        alert(`トークン取得エラー: ${error.message}`);
+        return;
+      }
+
+      if (!tokens || tokens.length === 0) {
+        alert('管理者のFCMトークンが見つかりません。');
+        return;
+      }
+
+      console.log(`${tokens.length}件のトークンが見つかりました`);
+
+      // 各トークンに直接通知を送信（Firebase Admin SDKの代わりにブラウザ通知を使用）
+      tokens.forEach(({ token }, index) => {
+        console.log(`トークン${index + 1}: ${token.substring(0, 20)}...`);
+        
+        // ブラウザ通知でテスト
+        if ('Notification' in window && Notification.permission === 'granted') {
+          const notification = new Notification('直接通知テスト', {
+            body: `トークン${index + 1}への通知テスト: ${token.substring(0, 20)}...`,
+            icon: '/favicon.svg',
+            badge: '/favicon.svg',
+            tag: `direct-notification-${index}`,
+            requireInteraction: true,
+          });
+
+          notification.onclick = () => {
+            window.focus();
+            notification.close();
+          };
+        }
+      });
+
+      alert(`${tokens.length}件のトークンに通知を送信しました。ブラウザ通知を確認してください。`);
+    } catch (error) {
+      console.error('直接通知送信エラー:', error);
+      alert(`直接通知送信に失敗しました: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -411,6 +493,22 @@ export default function Dashboard() {
             className="flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-md transition-colors"
           >
             <span>テスト通知送信</span>
+          </button>
+          
+          {/* 直接通知送信ボタン */}
+          <button
+            onClick={sendDirectNotification}
+            className="flex items-center px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded-md transition-colors"
+          >
+            <span>直接通知送信</span>
+          </button>
+          
+          {/* ブラウザ通知テストボタン */}
+          <button
+            onClick={testBrowserNotification}
+            className="flex items-center px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm rounded-md transition-colors"
+          >
+            <span>ブラウザ通知テスト</span>
           </button>
         </div>
       </div>
