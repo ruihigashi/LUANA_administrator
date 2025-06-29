@@ -72,6 +72,24 @@ export default function Dashboard() {
   // FCMトークンの確認
   const checkFCMToken = async () => {
     try {
+      console.log('FCMトークン確認開始');
+      
+      // まずテーブルが存在するかチェック
+      const { data: tableCheck, error: tableError } = await supabase
+        .from('fcm_tokens')
+        .select('count', { count: 'exact', head: true });
+
+      if (tableError) {
+        console.error('fcm_tokensテーブルエラー:', tableError);
+        if (tableError.code === 'PGRST116') {
+          alert('fcm_tokensテーブルが存在しません。Supabaseでテーブルを作成してください。');
+        } else {
+          alert(`テーブルアクセスエラー: ${tableError.message}`);
+        }
+        return;
+      }
+
+      // 管理者のFCMトークンを取得
       const { data, error } = await supabase
         .from('fcm_tokens')
         .select('token')
@@ -81,7 +99,11 @@ export default function Dashboard() {
 
       if (error) {
         console.error('FCMトークン取得エラー:', error);
-        alert('FCMトークンの取得に失敗しました');
+        if (error.code === 'PGRST116') {
+          alert('管理者のFCMトークンが見つかりません。通知設定を行ってください。');
+        } else {
+          alert(`FCMトークン取得エラー: ${error.message}`);
+        }
         return;
       }
 
