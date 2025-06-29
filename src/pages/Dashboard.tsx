@@ -69,6 +69,84 @@ export default function Dashboard() {
     checkNotificationStatus();
   }, []);
 
+  // テスト通知送信機能
+  const sendTestNotification = async () => {
+    try {
+      console.log('テスト通知送信開始');
+      
+      // Netlify FunctionsのURLを構築
+      const functionUrl = window.location.origin.includes('localhost') 
+        ? 'http://localhost:8888/.netlify/functions/send-notification'
+        : '/.netlify/functions/send-notification';
+      
+      console.log('通知送信URL:', functionUrl);
+      
+      const response = await fetch(functionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: 'admin',
+          notification: {
+            title: 'テスト通知',
+            body: '管理者通知機能のテストです',
+            data: {
+              url: '/admin/dashboard',
+              timestamp: new Date().toISOString(),
+              test: true
+            }
+          }
+        }),
+      });
+
+      console.log('レスポンスステータス:', response.status);
+      console.log('レスポンスヘッダー:', response.headers);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('テスト通知送信エラー:', errorText);
+        alert(`テスト通知送信エラー: ${response.status} ${response.statusText}\n\n詳細: ${errorText}`);
+        return;
+      }
+
+      const result = await response.json();
+      console.log('テスト通知送信成功:', result);
+      alert('テスト通知を送信しました。スマホで通知を確認してください。');
+    } catch (error) {
+      console.error('テスト通知送信エラー:', error);
+      alert(`テスト通知送信に失敗しました: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  // 手動でFCMトークンを保存するテスト機能
+  const saveTestToken = async () => {
+    try {
+      console.log('テストトークン保存開始');
+      
+      const testToken = 'test_token_' + Date.now();
+      
+      const { error } = await supabase
+        .from('fcm_tokens')
+        .upsert({ 
+          user_id: 'admin', 
+          token: testToken,
+          is_admin: true 
+        });
+
+      if (error) {
+        console.error('テストトークン保存エラー:', error);
+        alert(`テストトークン保存エラー: ${error.message}`);
+      } else {
+        console.log('テストトークンが正常に保存されました');
+        alert('テストトークンが正常に保存されました。トークン確認ボタンを押して確認してください。');
+      }
+    } catch (error) {
+      console.error('テストトークン保存エラー:', error);
+      alert('テストトークン保存に失敗しました。');
+    }
+  };
+
   // FCMトークンの確認
   const checkFCMToken = async () => {
     try {
@@ -317,6 +395,22 @@ export default function Dashboard() {
             className="flex items-center px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm rounded-md transition-colors"
           >
             <span>トークン確認</span>
+          </button>
+          
+          {/* テストトークン保存ボタン */}
+          <button
+            onClick={saveTestToken}
+            className="flex items-center px-3 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm rounded-md transition-colors"
+          >
+            <span>テストトークン保存</span>
+          </button>
+          
+          {/* テスト通知送信ボタン */}
+          <button
+            onClick={sendTestNotification}
+            className="flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-md transition-colors"
+          >
+            <span>テスト通知送信</span>
           </button>
         </div>
       </div>
