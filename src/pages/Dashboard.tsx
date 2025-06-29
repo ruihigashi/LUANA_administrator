@@ -89,6 +89,19 @@ export default function Dashboard() {
         return;
       }
 
+      console.log('テーブルアクセス成功');
+
+      // 全トークンを取得してデバッグ
+      const { data: allTokens, error: allTokensError } = await supabase
+        .from('fcm_tokens')
+        .select('*');
+
+      if (allTokensError) {
+        console.error('全トークン取得エラー:', allTokensError);
+      } else {
+        console.log('全トークン:', allTokens);
+      }
+
       // 管理者のFCMトークンを取得
       const { data, error } = await supabase
         .from('fcm_tokens')
@@ -100,7 +113,7 @@ export default function Dashboard() {
       if (error) {
         console.error('FCMトークン取得エラー:', error);
         if (error.code === 'PGRST116') {
-          alert('管理者のFCMトークンが見つかりません。通知設定を行ってください。');
+          alert('管理者のFCMトークンが見つかりません。通知設定を行ってください。\n\nコンソールログを確認して、FCMトークンが正しく保存されているか確認してください。');
         } else {
           alert(`FCMトークン取得エラー: ${error.message}`);
         }
