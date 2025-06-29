@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { Calendar, Scissors, Users, TrendingUp } from 'lucide-react';
+import { Calendar, Scissors, Users, TrendingUp, Bell, BellOff } from 'lucide-react';
 import {
   format,
   startOfWeek,
@@ -22,14 +22,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { registerAdminToken } from '../lib/firebase';
 
-// ───────────────────────────────────────────────────────
 // ダッシュボードで使うステートの型
-// ───────────────────────────────────────────────────────
 type Stats = {
-  totalReservations: number;        // 予約総数
-  totalCustomers: number;           // 顧客総数
-  totalServices: number;            // 提供サービス数
+  totalReservations: number;
+  totalCustomers: number;
+  totalServices: number;
   upcomingReservations: Array<{
     id: number;
     date: string;
@@ -38,7 +37,7 @@ type Stats = {
     customers: { first_name: string; last_name: string } | null;
   }>;
   revenueData: { name: string; revenue: number }[];
-  weekComparison: number;           // 前週比（%）
+  weekComparison: number;
 };
 
 export default function Dashboard() {
@@ -51,36 +50,61 @@ export default function Dashboard() {
     weekComparison: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [notificationEnabled, setNotificationEnabled] = useState(false);
+  const [isRegisteringNotification, setIsRegisteringNotification] = useState(false);
+
+  // 通知設定の確認
+  useEffect(() => {
+    const checkNotificationStatus = () => {
+      if ('Notification' in window) {
+        const permission = Notification.permission;
+        setNotificationEnabled(permission === 'granted');
+        console.log('通知許可状態:', permission);
+      } else {
+        console.log('このブラウザは通知をサポートしていません');
+      }
+    };
+    
+    checkNotificationStatus();
+  }, []);
+
+  // 通知設定ボタンのハンドラー
+  const handleNotificationSetup = async () => {
+    setIsRegisteringNotification(true);
+    try {
+      console.log('通知設定開始');
+      await registerAdminToken();
+      setNotificationEnabled(true);
+      console.log('通知設定完了');
+      alert('通知設定が完了しました。新しい予約があると通知が届きます。');
+    } catch (error) {
+      console.error('通知設定エラー:', error);
+      alert('通知設定に失敗しました。ブラウザの設定で通知を許可してから再度お試しください。');
+    } finally {
+      setIsRegisteringNotification(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchDashboardData() {
       setIsLoading(true);
       try {
-        // ----------------------------
-        // 1) 予約件数（reservations テーブルの総行数をカウント）
-        // ----------------------------
+        // 1) 予約件数
         const { count: resCount } = await supabase
           .from('reservations')
           .select('*', { count: 'exact', head: true });
 
-        // ----------------------------
-        // 2) 顧客件数（customers テーブルの総行数をカウント）
-        // ----------------------------
+        // 2) 顧客件数
         const { count: custCount } = await supabase
           .from('customers')
           .select('*', { count: 'exact', head: true });
 
-        // ----------------------------
-        // 3) サービス件数（services テーブルの総行数をカウント）
-        // ----------------------------
+        // 3) サービス件数
         const { count: svcCount } = await supabase
           .from('services')
           .select('*', { count: 'exact', head: true });
 
-        // ───────────────────────────────────────────────────────────────────
-        // 4) 今後の予約を取得（シンプルに「今日以降で日時順に先頭5件」）
-        //    必要なフィールド：顧客名 (first_name, last_name)、日時、メニュー(service_names)
-        // ───────────────────────────────────────────────────────────────────
+        // 4) 今後の予約を取得
         const today = format(new Date(), 'yyyy-MM-dd');
         const { data: upcomingData } = await supabase
           .from('reservations')
@@ -99,12 +123,10 @@ export default function Dashboard() {
           .order('start_time', { ascending: true })
           .limit(5);
 
-        // ──────────────────────────────────────────────────────────────
         // 5) 当週・前週の売上データを取得して集計
-        // ──────────────────────────────────────────────────────────────
         const now = new Date();
-        const weekStart = startOfWeek(now, { weekStartsOn: 1 });   // 今週の月曜
-        const weekEnd = endOfWeek(now, { weekStartsOn: 1 });       // 今週の日曜
+        const weekStart = startOfWeek(now, { weekStartsOn: 1 });
+        const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
         const prevWeekStart = startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
         const prevWeekEnd = endOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
 
@@ -162,7 +184,7 @@ export default function Dashboard() {
 
         // グラフ用データ (月〜日)
         const revenueData = daysOfWeek.map(day => ({
-          name: format(day, 'EEE', { locale: ja }), // 日本語省略曜日 (月, 火, …)
+          name: format(day, 'EEE', { locale: ja }),
           revenue: weekRevenueMap[format(day, 'yyyy-MM-dd')] || 0,
         }));
 
@@ -198,7 +220,32 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold text-gray-900">ダッシュボード</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-semibold text-gray-900">ダッシュボード</h1>
+        
+        {/* 通知設定ボタン */}
+        <div className="flex items-center space-x-2">
+          {notificationEnabled ? (
+            <div className="flex items-center text-green-600">
+              <Bell className="h-5 w-5 mr-1" />
+              <span className="text-sm">通知有効</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleNotificationSetup}
+              disabled={isRegisteringNotification}
+              className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white text-sm rounded-md transition-colors"
+            >
+              {isRegisteringNotification ? (
+                <div className="animate-spin h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"></div>
+              ) : (
+                <BellOff className="h-4 w-4 mr-2" />
+              )}
+              {isRegisteringNotification ? '設定中...' : '通知を有効にする'}
+            </button>
+          )}
+        </div>
+      </div>
 
       {isLoading ? (
         <div className="flex justify-center my-12">
@@ -206,9 +253,7 @@ export default function Dashboard() {
         </div>
       ) : (
         <>
-          {/* ─────────────────────────────────────────────
-              カード部分：予約総数・顧客総数・サービス数
-             ───────────────────────────────────────────── */}
+          {/* カード部分：予約総数・顧客総数・サービス数 */}
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {/* 予約総数 */}
             <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -310,9 +355,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* ─────────────────────────────────────────────
-              週間売上グラフ と 今後の予約リスト
-             ───────────────────────────────────────────── */}
+          {/* 週間売上グラフ と 今後の予約リスト */}
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* 週間売上グラフ */}
             <div className="bg-white shadow rounded-lg p-6">
