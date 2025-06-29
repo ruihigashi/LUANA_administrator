@@ -17,19 +17,52 @@ const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);
 
 // VAPIDキー（Firebase Consoleから取得した実際の値）
-const VAPID_KEY = '76QY0aMZIAl7I29t7sr008115Z2aAuxf6wUzZLEb0AI';
+const VAPID_KEY = 'BLl31oUG76kR0zJvcNHOOwlxFshCOz97zHqm8XozfQTWJ38CVWIrauKuEjFD-vqjKRAXdMkuKDLC-kj5rRyJeyY';
 
 /**
  * FCMトークンを取得する関数
  */
 export async function getFCMToken(): Promise<string | null> {
   try {
+    console.log('FCMトークン取得開始');
+    console.log('VAPIDキー:', VAPID_KEY);
+    console.log('Messaging:', messaging);
+    
+    // 通知許可の確認
+    if ('Notification' in window) {
+      console.log('通知許可状態:', Notification.permission);
+      if (Notification.permission !== 'granted') {
+        console.log('通知許可がありません。許可をリクエストします。');
+        const permission = await Notification.requestPermission();
+        console.log('通知許可リクエスト結果:', permission);
+        if (permission !== 'granted') {
+          console.error('通知許可が拒否されました');
+          return null;
+        }
+      }
+    } else {
+      console.error('このブラウザは通知をサポートしていません');
+      return null;
+    }
+
+    console.log('getToken呼び出し開始');
     const token = await getToken(messaging, {
       vapidKey: VAPID_KEY,
     });
+    
+    if (token) {
+      console.log('FCMトークン取得成功:', token.substring(0, 20) + '...');
+    } else {
+      console.error('FCMトークンがnullでした');
+    }
+    
     return token;
   } catch (error) {
     console.error('FCMトークン取得エラー:', error);
+    if (error instanceof Error) {
+      console.error('エラー詳細:', error.message);
+      console.error('エラースタック:', error.stack);
+    }
     return null;
   }
 }
