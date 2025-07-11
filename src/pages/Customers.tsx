@@ -332,6 +332,32 @@ export default function Customers() {
   }
 
   // ────────────────────
+  // 複数選択削除機能
+  // ────────────────────
+  const [selectedCustomerIds, setSelectedCustomerIds] = useState<number[]>([]);
+
+  const handleSelectCustomer = (id: number) => {
+    setSelectedCustomerIds((prev) =>
+      prev.includes(id) ? prev.filter((customerId) => customerId !== id) : [...prev, id]
+    );
+  };
+
+  const handleDeleteSelected = async () => {
+    if (!window.confirm('選択した顧客を削除しますか？')) return;
+
+    try {
+      for (const id of selectedCustomerIds) {
+        await handleDelete(id);
+      }
+      setSelectedCustomerIds([]);
+      alert('選択した顧客を削除しました。');
+    } catch (error) {
+      console.error('一括削除エラー:', error);
+      alert('一括削除に失敗しました');
+    }
+  };
+
+  // ────────────────────
   // JSX レンダリング
   // ────────────────────
   return (
@@ -339,13 +365,23 @@ export default function Customers() {
       {/** ヘッダー **/}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold text-gray-900">顧客一覧</h1>
-        <button
-          className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors"
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          顧客を追加
-        </button>
+        <div className="flex space-x-4">
+          <button
+            className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            顧客を追加
+          </button>
+          <button
+            className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors disabled:opacity-50"
+            onClick={handleDeleteSelected}
+            disabled={selectedCustomerIds.length === 0}
+          >
+            <Trash className="h-4 w-4 mr-2" />
+            選択した顧客を削除
+          </button>
+        </div>
       </div>
 
       {/** 検索＋並び順 **/}
@@ -437,7 +473,19 @@ export default function Customers() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    顧客（氏名）
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedCustomerIds.length === customers.length}
+                        onChange={() =>
+                          setSelectedCustomerIds(
+                            selectedCustomerIds.length === customers.length ? [] : customers.map((customer) => customer.id)
+                          )
+                        }
+                        className="mr-2"
+                      />
+                      顧客（氏名）
+                    </div>
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     フリガナ
@@ -763,6 +811,20 @@ export default function Customers() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/** 一括削除ボタン **/}
+      {selectedCustomerIds.length > 0 && (
+        <div className="fixed bottom-4 right-4 z-30">
+          <button
+            onClick={handleDeleteSelected}
+            disabled={selectedCustomerIds.length === 0}
+            className="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md shadow-sm transition-colors disabled:opacity-50"
+          >
+            <Trash className="h-4 w-4 mr-2" />
+            選択した顧客を削除
+          </button>
         </div>
       )}
     </div>

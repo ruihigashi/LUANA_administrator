@@ -4,7 +4,6 @@ import { Session } from '@supabase/supabase-js';
 
 type AuthContextType = {
   session: Session | null;
-  isLoading: boolean;
   signIn: (email: string, password: string) => Promise<{
     error: Error | null;
     data: any;
@@ -16,20 +15,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Check for active session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      setIsLoading(false);
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-        setIsLoading(false);
       }
     );
 
@@ -45,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, isLoading, signIn, signOut }}>
+    <AuthContext.Provider value={{ session, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
