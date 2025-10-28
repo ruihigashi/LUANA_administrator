@@ -1,5 +1,27 @@
 <div id="top"></div>
 
+## プロジェクト名
+
+Luana管理者サイト
+
+## 目次
+
+1. [プロジェクトについて](#プロジェクトについて)
+2. [環境](#環境)
+3. [ディレクトリ構成](#ディレクトリ構成)
+4. [開発環境構築](#開発環境構築)
+
+
+## プロジェクトについて
+
+luana_managementは、サロンの予約管理、顧客管理、サービス管理などを行うための管理者専用画面です。
+
+<img width="1920" height="954" alt="screencapture-luana-administer-netlify-app-dashboard-2025-10-28-14_39_43" src="https://github.com/user-attachments/assets/403c70ab-3bbe-469a-b5de-83945ddb47f7" />
+
+## サイトリンク
+https://luana-administer.netlify.app/login
+<br/>
+
 ## 使用技術一覧
 
 <!-- シールド一覧 -->
@@ -12,25 +34,6 @@
   <img src="https://img.shields.io/badge/-Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black">
 </p>
 
-## 目次
-
-1. [プロジェクトについて](#プロジェクトについて)
-2. [環境](#環境)
-3. [ディレクトリ構成](#ディレクトリ構成)
-4. [開発環境構築](#開発環境構築)
-5. [トラブルシューティング](#トラブルシューティング)
-
-
-
-## プロジェクト名
-
-luana_management
-
-<!-- プロジェクトについて -->
-
-## プロジェクトについて
-
-luana_managementは、サロンの予約管理、顧客管理、サービス管理などを行うための管理画面です。
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
 
@@ -129,31 +132,5 @@ npm run dev
 | `npm run build`   | 本番用にプロジェクトをビルドします。       |
 | `npm run lint`    | ESLintを実行してコードを静的解析します。   |
 | `npm run preview` | ビルドされたプロジェクトをプレビューします。 |
-
-<p align="right">(<a href="#top">トップへ</a>)</p>
-
-## トラブルシューティング
-
-### `npm install`でエラーが発生する
-
-Node.jsのバージョンが古い可能性があります。「環境」セクションに記載されているバージョンがインストールされているか確認してください。
-また、キャッシュが原因で問題が発生している場合は、以下のコマンドを試してください。
-
-```bash
-npm cache clean --force
-```
-
-### 開発サーバーが起動しない
-
-`.env`ファイルが正しく設定されているか確認してください。特に、`VITE_SUPABASE_URL`と`VITE_SUPABASE_ANON_KEY`が正しい値に設定されているか確認が必要です。
-
-### Module not found
-
-`npm install`が正常に完了していない可能性があります。`node_modules`ディレクトリを一度削除してから、再度`npm install`を実行してみてください。
-
-```bash
-rm -rf node_modules
-npm install
-```
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
